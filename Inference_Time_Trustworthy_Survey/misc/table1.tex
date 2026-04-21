@@ -1,0 +1,85 @@
+\begin{table*}[t]
+\centering
+\small
+\setlength{\tabcolsep}{4pt}
+\renewcommand{\arraystretch}{1.2}
+\caption{Comparison with existing surveys on inference-time trustworthiness metrics and methods.}
+\label{tab:survey_comparison}
+\resizebox{\textwidth}{!}{
+\begin{tabular}{l|cccc|ccccccc}
+\toprule
+\multirow{4}{*}{\textbf{Surveys}} 
+& \multicolumn{4}{c}{\textbf{Inference-time Metrics}} 
+& \multicolumn{7}{c}{\textbf{Inference-time Methods}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-12}
+& \multicolumn{4}{c}{\textbf{Trustworthiness Dimensions}}
+& \multicolumn{3}{c}{\textbf{External Controls}}
+& \multicolumn{3}{c}{\textbf{Internal Manipulations}}
+& \multicolumn{1}{c}{\textbf{System-Level Orchestration}} \\
+\cmidrule(lr){2-5} \cmidrule(lr){6-8} \cmidrule(lr){9-11} \cmidrule(lr){12-12}
+& \textbf{Safety} 
+& \textbf{Privacy} 
+& \textbf{Fairness} 
+& \textbf{Factuality}
+& \textbf{\makecell{Context\\Engineering}}
+& \textbf{Guardrails}
+& \textbf{Decoding}
+& \textbf{\makecell{Representation\\Engineering}}
+& \textbf{Unlearning}
+& \textbf{Pruning}
+& \textbf{\makecell{Multi-Agent\\Systems}} \\
+\midrule
+\textbf{Ours} 
+& \cmark & \cmark & \cmark & \cmark
+& \cmark & \cmark & \cmark
+& \cmark & \cmark & \cmark
+& \cmark \\
+{\citet{survey:inference_efficiency1}} 
+& \xmark & \xmark & \xmark & \xmark
+& \xmark & \xmark & \cmark
+& \xmark & \xmark & \cmark
+& \xmark \\
+{\citet{survey:post-training2}} 
+& \cmark & \cmark & \xmark & \cmark
+& \xmark & \cmark & \cmark
+& \cmark & \xmark & \cmark
+& \cmark \\
+{\citet{survey:post-training1}} 
+& \cmark & \xmark & \cmark & \cmark
+& \xmark & \xmark & \cmark
+& \cmark & \xmark & \cmark
+& \cmark \\
+{\citet{survey:trustworthy1}} 
+& \cmark & \cmark & \cmark & \cmark
+& \cmark & \cmark & \cmark
+& \cmark & \xmark & \cmark
+& \xmark \\
+{\citet{survey:trustworthy2}} 
+& \cmark & \cmark & \cmark & \cmark
+& \cmark & \cmark & \xmark
+& \cmark & \cmark & \xmark
+& \xmark \\
+{\citet{survey:trustworthy_text2img}} 
+& \cmark & \xmark & \cmark & \cmark
+& \cmark & \xmark & \xmark
+& \cmark & \xmark & \xmark
+& \xmark \\
+{\citet{survey:trustworthy_agents}} 
+& \cmark & \cmark & \cmark & \cmark
+& \cmark & \xmark & \xmark
+& \xmark & \xmark & \xmark
+& \cmark \\
+{\citet{survey:unlearning2}} 
+& \cmark & \cmark & \xmark & \xmark
+& \cmark & \cmark & \cmark
+& \cmark & \cmark & \xmark
+& \xmark \\
+{\citet{survey:unlearning1}} 
+& \cmark & \cmark & \cmark & \cmark
+& \cmark & \xmark & \xmark
+& \cmark & \cmark & \cmark
+& \xmark \\
+\bottomrule
+\end{tabular}
+}
+\end{table*}

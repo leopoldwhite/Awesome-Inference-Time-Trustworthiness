@@ -1,0 +1,57 @@
+%% ===============================================================
+%% preamble.tex -- Preamble for packages and global settings
+%% ===============================================================
+
+% The \BibTeX command to typeset BibTeX logo
+\AtBeginDocument{%
+  \providecommand\BibTeX{{%
+    Bib\TeX}}}
+
+% --- Packages ---
+\usepackage{graphicx}
+\usepackage{natbib}
+% \usepackage{amsmath}
+% \usepackage{booktabs}
+% \usepackage{hyperref}
+% \usepackage{cleveref}
+\usepackage{geometry}
+\usepackage{tikz}
+\usetikzlibrary{
+    shapes.geometric, % for shapes such as rectangles
+    arrows.meta,      % for arrow styles
+    positioning,      % for node positioning (e.g., right=of)
+    calc              % for coordinate calculation
+}
+
+
+\usepackage{booktabs}
+\usepackage{multirow}
+\usepackage{makecell}
+\usepackage{pifont}
+
+% --- Define styles used in the diagrams ---
+\tikzset{
+    main/.style = {rectangle, rounded corners, draw=black, thick, fill=blue!10, text width=2.8cm, minimum height=0.7cm, align=center, font=\small},
+    sub/.style = {rectangle, rounded corners, draw=black, thick, fill=blue!5, text width=3cm, minimum height=0.6cm, align=center, font=\small},
+    leaf/.style = {rectangle, draw=black, thick, fill=gray!5, text width=10cm, align=left, font=\footnotesize},
+    line/.style = {thick} 
+}
+
+
+\usepackage[edges]{forest}
+\usepackage{etoolbox}
+\robustify\citep
+
+
+
+% --- Tighten figure/table spacing globally ---
+\setlength{\intextsep}{6pt plus 2pt minus 2pt}      % was ~12pt
+\setlength{\floatsep}{8pt plus 2pt minus 2pt}        % was ~12pt
+\setlength{\textfloatsep}{8pt plus 2pt minus 2pt}    % was ~20pt
+\setlength{\abovecaptionskip}{4pt}                    % was ~10pt
+\setlength{\belowcaptionskip}{0pt}                    % was ~0pt
+
+% Tells LaTeX to look for images in the 'figures/' folder
+\graphicspath{{figures/}}
+
+

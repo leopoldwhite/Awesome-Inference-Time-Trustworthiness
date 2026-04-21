@@ -1,0 +1,145 @@
+\subsection{Unlearning}
+\label{sec:unlearning}
+
+\begin{figure}[htbp]
+\centering
+% Width uses \textwidth; height auto-scales with !
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}
+% --- 1. Define leaf nodes (papers, citations added) ---
+\node[leaf] (safety_papers) {
+GUARD~\citep{deng2025guard}, Ripple Effect Unlearning~\citep{zhang2024theft}, In-context Knowledge Unlearning~\citep{takashiro2024answer}, ALU~\citep{sanyal2025agents}.
+};
+
+\node[leaf, below=0.3cm of safety_papers] (privacy_papers) {
+In-Context Unlearning~\citep{pawelczyk2023context}, Fast Exact Unlearning~\citep{muresanufast}, 
+% Learning to Refuse~\citep{liu2024learning}, 
+Visual In-Context Learning~\citep{zhou2024visual}, 
+% ECO-Prompts~\citep{liu2024large}, 
+GUARD~\citep{deng2025guard}.
+};
+
+\node[leaf, below=0.3cm of privacy_papers] (factuality_papers) {
+In-context Knowledge Unlearning~\citep{takashiro2024answer}.
+};
+
+% --- 2. Define main sub-nodes (Trustworthiness dimensions) ---
+% Positioned to the left of corresponding leaf nodes
+\node[sub, left=0.5cm of safety_papers] (safety) {Safety};
+\node[sub, left=0.5cm of privacy_papers] (privacy) {Privacy};
+\node[sub, left=0.5cm of factuality_papers] (factuality) {Factuality \& Faithfulness};
+
+% --- 3. Define root node ---
+% Use the calc library to vertically center the root node relative to the sub-nodes
+\node[main, left=2.5cm of {$(safety.west)!0.5!(factuality.west)$}] (unlearning) {Unlearning (§\ref{sec:unlearning})};
+
+% --- 4. Draw connection lines ---
+% a. Draw a main trunk from the root node to a branching point
+\coordinate (fork) at ($(unlearning.east)+(1.25cm,0)$);
+\draw[line] (unlearning.east) -- (fork);
+
+% b. Connect from main branching point to each sub-node
+\draw[line] (fork) |- (safety.west);
+\draw[line] (fork) |- (privacy.west);
+\draw[line] (fork) |- (factuality.west);
+
+% c. Connect main sub-nodes directly to leaf nodes
+\draw[line] (safety.east) -- (safety_papers.west);
+\draw[line] (privacy.east) -- (privacy_papers.west);
+\draw[line] (factuality.east) -- (factuality_papers.west);
+
+\end{tikzpicture}%
+}
+\caption{A taxonomy of Unlearning for enhancing LLM trustworthiness.}
+\label{fig:unlearning_taxonomy}
+\end{figure}
+
+% LLMs are trained on massive corpora, making it increasingly critical to ensure that they acquire the right knowledge. At the same time, growing legal and ethical concerns have emerged around the presence of unwanted, sensitive, or inappropriate information in these training datasets. These concerns have motivated a surge of interest in machine unlearning.  
+
+% Machine unlearning seeks to selectively remove harmful, private, or copyrighted knowledge from LLMs without retraining them entirely from scratch. Instead, it focuses on erasing the influence of a small subset of undesirable data. In contrast to training-time unlearning—which typically involves gradient ascent or fine-tuning with direct access to the original dataset, and often suffers from instability in controlling weight updates—\textbf{inference-time unlearning} offers a lightweight and dynamic alternative. It enables steering model behavior away from undesirable knowledge while preserving general-purpose capabilities.
+
+\subsubsection{Core Principle.}
+% Defines Machine Unlearning as selectively removing information, behaviors, or biases from a pre-trained model, motivated by regulatory needs and safety imperatives.
+
+% Nowadays, Large Language Models are trained on massive text, ensuring the models learned the right knowledge has becoming critical. At the same time, there are growing legal and ethical concerns over LLMs being trained on many unwanted knowledge, which also motivates research into unlearning. 
+
+% Machine unlearning aims to selectively remove harmful, private, or copyrighted knowledge from LLMs without retraining from scratch by leaving out a small subset of unwanted knowledge. In contrast to training-time unlearning, which typically requires gradient ascent or fine-tuning with access to the training set and difficulties of controlling the changes in model weights during this process, inference-time unlearning provides a lightweight, dynamic means of steering model behavior away from undesirable knowledge while preserving general capabilities. 
+
+LLMs are trained on massive corpora, so controlling what knowledge they retain and express has become increasingly important. At the same time, harmful, private, copyrighted, or otherwise undesirable content may be absorbed during training, raising legal, ethical, and safety concerns. These concerns have made unlearning an important problem for trustworthy LLM deployment. At a high level, unlearning aims to prevent targeted knowledge from influencing model behavior. In inference-time settings, this goal is pursued not by rewriting model parameters, but by intervening during generation to suppress, bypass, or reduce the influence of unwanted knowledge and behaviors. Such methods act as runtime control mechanisms. They limit the model's tendency to express targeted content while preserving its broader capabilities. 
+% Use some mathematical equations here.
+
+\subsubsection{Mechanisms.}
+
+Inference-time unlearning methods can be grouped into two main families: \emph{gradient-based methods} and \emph{influence-based methods}. Gradient-based methods apply dynamic penalties or control signals during the forward pass to steer generation away from targeted knowledge. Influence-based methods instead estimate and remove the contribution of specific in-context examples at inference time. 
+
+\paragraph{Gradient-Based Methods}
+Gradient-based unlearning methods suppress targeted knowledge by applying gradient-inspired penalties during the forward pass. Rather than updating model weights, they modify the model's runtime computation to steer generation away from undesirable outputs.
+
+A representative example is \textbf{GUARD}~\citep{deng2025guard}, which introduces adaptive restriction and detection during generation. By identifying knowledge associated with sensitive concepts and applying penalties in real time, the model is guided away from unsafe continuations while maintaining fluency. Related work also suggests that inference-time forgetting can emerge through runtime control signals that redirect generation toward refusal rather than factual recall~\citep{zhang2024theft}. Overall, these methods make unlearning flexible and reversible at deployment time, but they also highlight a central limitation: the targeted knowledge is often suppressed in output rather than fully erased from the model.
+
+
+% \paragraph{Gradient-Based Methods}
+% % Modifying weights in the opposite direction of the learning gradient (gradient ascent).
+% Gradient-based unlearning methods operate by modifying model behavior through gradient signals during inference rather than through permanent weight updates. Instead of training-time fine-tuning, these approaches dynamically adjust activations or steer logits to suppress undesired knowledge. 
+
+% A representative example is GUARD~\citep{deng2025guard}, which introduces adaptive restriction and detection during generation. By identifying knowledge associated with sensitive concepts and applying gradient-inspired penalties in real time, the model is guided to avoid unsafe continuations while maintaining fluency. Similarly, Ripple Effect Unlearning~\citep{zhang2024theft} demonstrates how removing dangerous capabilities (e.g., bomb-making instructions) can propagate across related domains, underscoring both the potential and risks of inference-time gradient steering. Another notable case is In-context knowledge unlearning~\citep{takashiro2024answer}, which employs unlearning tokens to trigger context-dependent forgetting. The model “pretends to forget” by retaining internal activations up to late layers but outputting a refusal token at generation time, illustrating that forgetting is realized as a decision boundary shift rather than true erasure. Together, these works highlight gradient-based unlearning as an inference-time control mechanism: flexible, reversible, and well-suited to safety-critical interventions, though limited by the difficulty of verifying whether knowledge is genuinely erased or merely suppressed. 
+
+% \paragraph{Parameter-Based Methods}
+% % Identifying and nullifying parameters storing target information, overlapping with Model Editing.
+
+% Parameter-based methods differ from gradient-based methods in that they do not rely on real-time gradient signals or optimization dynamics. Instead, those methods intervene directly on the model’s internal representations, such as embeddings, neurons, or attention weights, to block the recall of specific knowledge. While gradient-based unlearning operates by steering the model’s computational trajectory during inference, parameter-based methods achieve forgetting by \emph{structural disruption} of how information is encoded. This often yields more stable suppression but with less flexibility compared to gradient-based steering. 
+
+% For example, \textbf{ECO-Prompts}~\citep{liu2024large} corrupt embedding vectors corresponding to unlearning targets, ensuring that when such concepts are queried, the corrupted representations block accurate recall. This lightweight mechanism avoids costly fine-tuning and achieves selective forgetting while preserving unrelated knowledge. Complementary to this, \textbf{Learning to Refuse}~\citep{liu2024learning} adopts a parameter-efficient adaptation strategy, where models are guided to output refusals when sensitive queries are detected. These works illustrate the growing role of parameter-based inference-time unlearning: efficient, composable with other defenses, but often coarse in its selectivity, raising concerns about unintended collateral forgetting. 
+
+
+
+% Approximating and subtracting the influence of the "forget" data on final model parameters.
+% Influence-based methods differ fundamentally from both gradient-based and parameter-based approaches. 
+\paragraph{Influence-Based Methods}
+
+Influence-based methods treat forgetting as the removal or reduction of specific contextual influence at inference time. Rather than steering the model globally, they estimate how particular training or in-context examples contribute to a prediction and then cancel, exclude, or replace that effect during generation. In this sense, they frame unlearning as a counterfactual reasoning problem rather than direct intervention on the forward trajectory.
+
+For example,~\citet{pawelczyk2023context} introduce In-Context Unlearning, where LLMs are taught to disregard selected in-context examples by relabeling or suppressing their contribution, thereby simulating forgetting within the prompt. Building on this idea,~\citet{muresanufast} propose Fast Exact Unlearning, which efficiently removes the influence of in-context training examples from model predictions without weight updates. Although originally motivated by privacy compliance, these methods show how influence estimation can support inference-time unlearning guarantees. This perspective also extends to multimodal settings.~\citet{zhou2024visual} study unlearning in large vision-language models through visual in-context learning and show that selectively excluding visual exemplars at inference time can reduce leakage of sensitive information. Together, these works show that influence-based unlearning is a clean and flexible inference-time mechanism across both text and multimodal generation.
+
+% Unlike gradient-based methods and parameter-based methods, which actively steer the model’s forward computation and modify weights, influence-based approaches work at the level of \emph{attribution}. They approximate and subtract the contribution of specific training or in-context examples to the model’s predictions, effectively simulating what the model would output if those examples had never been present. In this way, they frame unlearning as a counterfactual reasoning problem rather than a direct manipulation of activations or parameters. 
+
+% For instance,~\citet{pawelczyk2023context} introduce \textbf{In-Context Unlearning}, where LLMs are taught to disregard certain in-context examples by re-labeling or suppressing their contribution, thereby simulating forgetting within the prompt. Building on this idea,~\citet{muresanufast} propose \textbf{Fast Exact Unlearning}, which provides efficient algorithms to remove the influence of in-context training examples from LLM predictions without requiring weight updates. While developed primarily for privacy compliance, these methods exemplify how influence estimation can be harnessed to provide test-time unlearning guarantees. Interestingly, work in multimodal settings also extends this perspective. For instance,~\citet{zhou2024visual} investigate unlearning in large vision-language models through visual in-context learning, showing that selectively excluding visual exemplars at inference time can mitigate leakage of sensitive information. Such studies demonstrate that influence-based unlearning is not confined to text, but generalizes to cross-modal reasoning. 
+
+% This typology reveals complementary strengths: gradient-based methods excel in dynamic, safety-critical scenarios; parameter-based approaches provide lightweight suppression via embedding corruption; and influence-based methods approximate counterfactual removal for privacy and compliance. Together, they outline a diverse design space for inference-time unlearning, though verifying true erasure versus behavioral suppression remains an open challenge.
+
+\subsubsection{Applications.}
+Although inference-time unlearning methods differ in mechanism, they share a common goal of reducing the influence of harmful, private, or outdated knowledge during generation. Below, we highlight their applications to privacy, safety, and factuality/faithfulness.
+
+\paragraph{Safety}
+% Removing dangerous knowledge or toxic language patterns acquired during training.
+A key application of unlearning is the suppression of dangerous or toxic capabilities. Because LLMs are trained on large web corpora, they may retain knowledge of illegal activities or unsafe behaviors that can be elicited at deployment time. Gradient-based methods such as GUARD~\citep{deng2025guard} address this problem by applying adaptive restriction and detection during generation, steering the model away from unsafe continuations without retraining. In-context knowledge unlearning~\citep{takashiro2024answer} uses unlearning tokens to trigger selective refusal in context, enabling dynamic suppression of unsafe or irrelevant knowledge. Ripple Effect Unlearning~\citep{zhang2024theft} further shows that suppressing harmful capabilities, such as bomb-making instructions, can reduce jailbreak success but may also propagate to related benign domains. Multi-agent inference frameworks such as ALU~\citep{sanyal2025agents} extend this line by formulating safety control through coordinated unlearning-oriented reasoning under diverse jailbreak settings. 
+
+% Another critical application of unlearning lies in excising dangerous or toxic capabilities. LLMs trained on large web corpora can internalize knowledge of illegal activities or unsafe behaviors, which can pose significant risks during usage without regulations. Gradient-inspired methods such as \emph{GUARD}~\citep{deng2025guard} apply adaptive restriction and detection during generation, steering the model away from unsafe continuations without retraining. \emph{In-context knowledge unlearning}~\citep{takashiro2024answer} introduces unlearning tokens that trigger selective refusal of unsafe or irrelevant knowledge in specific contexts, enabling dynamic, context-aware forgetting. \emph{Ripple Effect Unlearning}~\citep{zhang2024theft} demonstrates that removing harmful capabilities, such as bomb-making instructions, reduces jailbreak success but also reveals unintended propagation effects to benign knowledge domains. In parallel, multi-agent inference pipelines like \emph{ALU}~\citep{sanyal2025agents} evaluate unlearning against a wide range of jailbreak strategies, reinforcing its role in adversarial safety. Together, these works demonstrate unlearning’s promise in mitigating safety risks, while underscoring the importance of managing collateral effects and ensuring consistent refusal across adversarial settings. 
+
+\paragraph{Privacy}
+% Removing PII and other sensitive data to comply with privacy regulations and user requests.
+Privacy is one of the clearest motivations for unlearning, especially under regulations such as the right to be forgotten~\citep{voigt2017eu, bonta2022california}. Because LLMs can memorize sensitive data and disclose it during interaction, inference-time unlearning provides a lightweight way to reduce such leakage without retraining. In-Context Unlearning~\citep{pawelczyk2023context} suppresses the influence of forgotten examples within the prompt, while Fast Exact Unlearning~\citep{muresanufast} removes the effect of sensitive in-context examples at inference time without changing model parameters. In multimodal settings, Visual In-Context Learning~\citep{zhou2024visual} further shows that excluding visual exemplars at inference time can reduce leakage in large vision-language models. 
+
+% Unlearning is most directly motivated by privacy regulation and the ``right to be forgotten''~\citep{voigt2017eu, bonta2022california}. LLMs are known to memorize sensitive data and may inadvertently disclose it during interactions. Inference-time unlearning provides a lightweight avenue to comply with data deletion requests and protect personally identifiable information (PII) without retraining. Approaches such as \emph{In-Context Unlearning}~\citep{pawelczyk2023context} suppress the contribution of forgotten examples by relabeling or discounting their effect within the prompt, motivated explicitly by GDPR compliance. Building on this, \emph{Fast Exact Unlearning}~\citep{muresanufast} formalizes an efficient algorithm to remove the influence of sensitive in-context examples at inference time, achieving exact compliance without modifying parameters. Parameter-oriented techniques such as \emph{Learning to Refuse}~\citep{liu2024learning} target privacy by attaching a lightweight refusal adapter that maps sensitive queries to refusal tokens, overriding the model’s memorized responses without retraining. Beyond this, \emph{Visual In-Context Learning}~\citep{zhou2024visual} highlights unlearning as essential for secure deployment of large vision-language models in privacy-critical settings. Finally, generation-time defenses such as \emph{GUARD}~\citep{deng2025guard} and \emph{ECO-Prompts}~\citep{liu2024large} define threat models that explicitly include entity leakage and evaluate unlearning methods on datasets containing PII. Collectively, these works highlight unlearning as a crucial defense for privacy protection, though verifying that sensitive knowledge is fully removed rather than suppressed remains an open challenge. 
+ 
+\paragraph{Factuality and Faithfulness}
+% 
+Inference-time unlearning also relates to factuality and faithfulness, especially when models rely on outdated, incorrect, or untrusted knowledge during generation. Instead of recalling such content, unlearning can redirect the model toward abstention or explicit forgetting. In-context knowledge unlearning~\citep{takashiro2024answer} provides a direct example, showing that unlearning tokens can suppress forgotten content and induce explicit ``forgotten'' responses rather than unsupported answers. This suggests that inference-time unlearning can improve factual reliability by preventing the model from expressing knowledge that should no longer be trusted. At the same time, this connection remains underexplored, and it is still unclear when runtime suppression should be viewed as genuine forgetting rather than controlled abstention. Recent diagnostic frameworks argue that single-value unlearning metrics obscure exactly this distinction, and propose cognitive-diagnosis-style evaluations that jointly probe retention, removal, and transfer effects across difficulty levels~\citep{lang2025beyond}.
+
+% \subsubsection{Discussion: The Verification Problem and Conceptual Unlearning}
+% % Strengths: Provides a targeted and efficient solution for data removal and harm mitigation.
+% % Limitations: The fundamental difficulty of verifying that information is truly forgotten, the utility-forgetting trade-off, and the challenge of unlearning abstract concepts versus specific data points.
+
+
+% \paragraph{Strength}
+
+% % A key strength of inference-time unlearning lies in its ability to provide \textbf{targeted control over model generation}. Rather than permanently altering parameters, these methods allow model practitioners to precisely steer outputs away from sensitive or harmful knowledge while preserving the model’s broader utility. This controllability makes them particularly suitable for dynamic and safety-critical settings where reversibility and fine-grained adjustment are essential. At the same time, inference-time unlearning is inherently \textbf{lightweight and efficient}: it avoids the prohibitive costs of retraining or weight-level editing, instead intervening directly during inference through activation steering, parameter masking, or influence subtraction. Together, these properties make inference-time approaches not only more practical for real-world deployment, but also more adaptable to evolving regulatory and ethical demands where responsiveness is as important as robustness.
+
+% A key strength of inference-time unlearning is its targeted control over model generation. Rather than changing model parameters, these methods steer outputs away from sensitive or harmful knowledge while preserving broader utility. This makes them especially useful in dynamic or safety-critical settings where reversibility and fine-grained adjustment matter. They are also lightweight and efficient. Instead of relying on retraining or offline model modification, they intervene during generation through runtime penalties, control signals, or influence subtraction. These properties make inference-time unlearning practical for deployment and adaptable to evolving safety, privacy, and regulatory demands.
+
+
+% \paragraph{Limitations}
+
+% % Despite these strengths, inference-time unlearning still faces several critical limitations. One major challenge is the \textbf{robustness of unlearning}. Prior work shows that many algorithms tend to obscure unlearned knowledge rather than erasing it entirely, leaving models vulnerable to recovery under adversarial prompting or indirect probing attacks~\citep{lucki2024adversarial, dou2025avoiding}. This casts doubt on whether inference-time suppression can provide the strong deletion guarantees demanded in privacy and safety-sensitive applications. Another limitation is the \textbf{trade-off between utility and unlearning efficacy}. As recent studies demonstrate~\citep{liu2024breaking, liu2024towards}, achieving stronger unlearning often comes at the cost of reduced fluency, accuracy, or reasoning ability, echoing the “alignment tax” observed in RLHF settings~\citep{lin2023mitigating}. This tension highlights an open research problem: designing inference-time algorithms that maintain high utility while reliably mitigating harmful or sensitive knowledge. Addressing both robustness and the utility–efficacy trade-off will be essential for advancing inference-time unlearning from a promising intervention into a dependable component of trustworthy LLM deployment.
+
+% Despite these strengths, inference-time unlearning still faces important limitations. One major challenge is verification. Many methods appear to suppress unlearned knowledge rather than remove its influence entirely, which leaves models vulnerable to recovery under adversarial prompting or indirect probing~\citep{lucki2024adversarial, dou2025avoiding}. This makes it difficult to determine whether a method achieves genuine forgetting or only output-level suppression. Another challenge is the trade-off between utility and unlearning strength. Stronger suppression can reduce harmful or sensitive outputs, but it may also hurt fluency, accuracy, or reasoning ability~\citep{liu2024breaking, liu2024towards, lin2023mitigating}. Addressing both verification and this utility trade-off will be important for making inference-time unlearning a dependable part of trustworthy LLM deployment.

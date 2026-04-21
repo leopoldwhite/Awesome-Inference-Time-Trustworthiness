@@ -1,0 +1,326 @@
+%% ===============================================================
+%% main.tex -- The Main Document File
+%% ===============================================================
+
+\documentclass[acmsmall]{acmart}
+
+% --- 1. PREAMBLE: Load all packages and custom commands ---
+\input{preamble.tex}
+
+% --- 2. METADATA: Rights, Conference, Title, Authors, etc. ---
+% Replace with your actual rights information
+\acmJournal{CSUR}
+\setcopyright{acmlicensed}
+\copyrightyear{2025}
+\acmYear{2025}
+\acmDOI{XXXXXXX.XXXXXXX}
+
+
+\newcommand{\yuji}[1]{\textcolor{red}{Yuji: #1}}
+
+
+\title{Inference-Time Control for Trustworthy Large Language Models: A Survey}
+
+\author{Yuyang Bai}
+\authornote{Project Leader.}
+\authornote{Major Contributor.}
+\affiliation{%
+  \institution{Texas A\&M University}
+  \country{USA}
+}
+\email{ybai@tamu.edu}
+
+\author{Zheyuan Liu}
+\authornotemark[1]
+\authornotemark[2]
+\affiliation{%
+  \institution{University of Notre Dame}
+  \country{USA}
+}
+\email{zliu29@nd.edu}
+
+\author{Han Yan}
+\authornotemark[2]
+\affiliation{%
+  \institution{University of Notre Dame}
+  \country{USA}
+}
+\email{yanh8284@gmail.com}
+
+\author{Zhangchen Xu}
+\authornotemark[2]
+\affiliation{%
+  \institution{University of Washington}
+  \country{USA}
+}
+\email{zxu9@uw.edu}
+
+\author{Yixin Wan}
+\authornotemark[2]
+\affiliation{%
+  \institution{University of California, Los Angeles}
+  \country{USA}
+}
+\email{elaine1wan@cs.ucla.edu}
+
+\author{Canyu Chen}
+\authornotemark[2]
+\affiliation{%
+  \institution{Northwestern University}
+  \country{USA}
+}
+\email{canyuchen@u.northwestern.edu}
+
+\author{Zehong Wang}
+\authornotemark[2]
+\affiliation{%
+  \institution{University of Notre Dame}
+  \country{USA}
+}
+\email{zwang43@nd.edu}
+
+\author{Xiangchi Yuan}
+\authornotemark[2]
+\affiliation{%
+  \institution{Georgia Institute of Technology}
+  \country{USA}
+}
+\email{xyuan300@gatech.edu}
+
+\author{Yue Huang}
+\authornotemark[2]
+\affiliation{%
+  \institution{University of Notre Dame}
+  \country{USA}
+}
+\email{yhuang37@nd.edu}
+
+\author{Guangyao Dou}
+\authornotemark[2]
+\affiliation{%
+  \institution{Johns Hopkins University}
+  \country{USA}
+}
+\email{gdou1@jhu.edu}
+
+\author{Yuji Zhang}
+% \authornotemark[2]
+\affiliation{%
+  \institution{University of Illinois at Urbana-Champaign}
+  \country{USA}
+}
+\email{yujiz@illinois.edu}
+
+\author{Zhuofeng Li}
+% \authornotemark[2]
+\affiliation{%
+  \institution{Texas A\&M University}
+  \country{USA}
+}
+\email{zhuofengli@tamu.edu}
+
+\author{Hangxiao Zhu}
+% \authornotemark[2]
+\affiliation{%
+  \institution{Texas A\&M University}
+  \country{USA}
+}
+\email{hangxiao@tamu.edu}
+
+\author{Xiangliang Zhang}
+\affiliation{%
+  \institution{University of Notre Dame}
+  \country{USA}
+}
+\email{xzhang33@nd.edu}
+
+
+\author{Yu Zhang}
+\authornote{Corresponding Author.}
+\affiliation{%
+  \institution{Texas A\&M University}
+  \country{USA}
+}
+\email{yuzhang@tamu.edu}
+
+\author{Meng Jiang}
+\authornotemark[3]
+\affiliation{%
+  \institution{University of Notre Dame}
+  \country{USA}
+}
+\email{mjiang2@nd.edu}
+
+% A short version of authors for page headers
+\renewcommand{\shortauthors}{Bai et al.}
+\newcommand{\cmark}{\textcolor{green!50!black}{\ding{51}}}
+\newcommand{\xmark}{\textcolor{red!70!black}{\ding{55}}}
+
+% --- CCS and Keywords ---
+\begin{CCSXML}
+<ccs2012>
+   <concept>
+       <concept_id>10002978.10003029</concept_id>
+       <concept_desc>Security and privacy~Human and societal aspects of security and privacy</concept_desc>
+       <concept_significance>500</concept_significance>
+       </concept>
+ </ccs2012>
+\end{CCSXML}
+
+\ccsdesc[500]{Security and privacy~Human and societal aspects of security and privacy}
+\keywords{Large Language Models, Trustworthy AI, Inference-Time Control}
+
+% --- 3. DOCUMENT BODY ---
+\begin{document}
+
+
+\input{sections/00-abstract}
+
+\maketitle
+
+% --- Introduction ---
+\input{sections/01-introduction-v4}
+
+% \begin{table*}[t]
+% \centering
+% \small
+% \setlength{\tabcolsep}{4pt}
+% \renewcommand{\arraystretch}{1.2}
+% \caption{Comparison with existing surveys on inference-time trustworthiness metrics and methods.}
+% \label{tab:survey_comparison}
+% \resizebox{\textwidth}{!}{
+% \begin{tabular}{l|cccc|cccccccc}
+% \toprule
+% \multirow{4}{*}{\textbf{Surveys}} 
+% & \multicolumn{4}{c}{\textbf{Inference-time Metrics}} 
+% & \multicolumn{8}{c}{\textbf{Inference-time Methods}} \\
+% \cmidrule(lr){2-5} \cmidrule(lr){6-13}
+% & \multicolumn{4}{c}{\textbf{Trustworthiness Dimensions}}
+% & \multicolumn{3}{c}{\textbf{External Controls}}
+% & \multicolumn{4}{c}{\textbf{Internal Manipulations}}
+% & \multicolumn{1}{c}{\textbf{System-Level Orchestration}} \\
+% \cmidrule(lr){2-5} \cmidrule(lr){6-8} \cmidrule(lr){9-12} \cmidrule(lr){13-13}
+% & \textbf{Safety} 
+% & \textbf{Privacy} 
+% & \textbf{Fairness} 
+% & \textbf{Factuality}
+% & \textbf{Context Engineering}
+% & \textbf{Guardrails}
+% & \textbf{Decoding}
+% & \textbf{Representation Engineering}
+% & \textbf{Editing}
+% & \textbf{Unlearning}
+% & \textbf{Pruning}
+% & \textbf{Multi-Agent Systems} \\
+% \midrule
+% \textbf{Ours} 
+% & \cmark & \cmark & \cmark & \cmark
+% & \cmark & \cmark & \cmark
+% & \cmark & \cmark & \cmark & \cmark
+% & \cmark \\
+% {\citet{survey:inference_efficiency1}} 
+% & \xmark & \xmark & \xmark & \xmark
+% & \xmark & \xmark & \cmark
+% & \xmark & \xmark & \xmark & \cmark
+% & \xmark \\
+% {\citet{survey:post-training2}} 
+% & \cmark & \cmark & \xmark & \cmark
+% & \xmark & \cmark & \cmark
+% & \cmark & \xmark & \xmark & \cmark
+% & \cmark \\
+% {\citet{survey:post-training1}} 
+% & \cmark & \xmark & \cmark & \cmark
+% & \xmark & \xmark & \cmark
+% & \cmark & \cmark & \xmark & \cmark
+% & \cmark \\
+% {\citet{survey:trustworthy1}} 
+% & \cmark & \cmark & \cmark & \cmark
+% & \cmark & \cmark & \cmark
+% & \cmark & \cmark & \xmark & \cmark
+% & \xmark \\
+% {\citet{survey:trustworthy2}} 
+% & \cmark & \cmark & \cmark & \cmark
+% & \cmark & \cmark & \xmark
+% & \cmark & \cmark & \cmark & \xmark
+% & \xmark \\
+% {\citet{survey:trustworthy_text2img}} 
+% & \cmark & \xmark & \cmark & \cmark
+% & \cmark & \xmark & \xmark
+% & \cmark & \cmark & \xmark & \xmark
+% & \xmark \\
+% {\citet{survey:trustworthy_agents}} 
+% & \cmark & \cmark & \cmark & \cmark
+% & \cmark & \xmark & \xmark
+% & \xmark & \cmark & \xmark & \xmark
+% & \cmark \\
+% {\citet{survey:unlearning2}} 
+% & \cmark & \cmark & \xmark & \xmark
+% & \cmark & \cmark & \cmark
+% & \cmark & \cmark & \cmark & \xmark
+% & \xmark \\
+% {\citet{survey:unlearning1}} 
+% & \cmark & \cmark & \cmark & \cmark
+% & \cmark & \xmark & \xmark
+% & \cmark & \cmark & \cmark & \cmark
+% & \xmark \\
+% \bottomrule
+% \end{tabular}
+% }
+% \end{table*}
+
+\input{misc/table1}
+
+% --- Tier 1: External Controls ---
+\section{External Controls}
+\label{sec:external_controls}
+External controls treat the model as a black box, shaping its behavior by manipulating inputs, the decoding process, or outputs---without accessing or modifying internal weights or activations. These methods are the most modular and widely applicable, as they require no white-box access and can be deployed on proprietary, API-only models. In the inference-time pipeline (Figure~\ref{fig:taxonomy_pipeline}), they attach to the context assembly, input policy checks, decoding, and output policy checks stages.
+
+\input{sections/02-context_engineering}
+\input{sections/03-guardrails}
+\input{sections/04-decoding}
+
+% --- Tier 2: Internal Manipulations ---
+\section{Internal Manipulations}
+% \textcolor{red}{(1) Core Principles, shorten.
+% (2) Applications, each trustworthy perspective has one paragraph (maybe delete some citations)
+% (3) Move all of the discussion sections to the end (later sections can be divided by the methods)}
+
+% \textcolor{blue}{Frank's Changes: I removed model editing section, revise the figure, and shorten the discussion sections and then move them to the end. Change each tree citations after deleting some citations.}
+
+\label{sec:internal_manipulations}
+Internal manipulations require white-box access to the model. They intervene directly in the model's computation, for example by modifying activations during a forward pass, selectively removing targeted behaviors or knowledge in context, or pruning architectural components. Compared with external controls, these methods often provide finer-grained and more persistent behavioral changes. In return, they require white-box access to internal representations or model components during generation. In the inference-time pipeline shown in Figure~\ref{fig:taxonomy_pipeline}, they operate at the LLM generation stage by acting on internal representations or model components.
+
+\input{sections/05-representation_engineering}
+% \input{sections/06-editing}
+\input{sections/07-unlearning}
+\input{sections/08-pruning}
+
+% --- Tier 3: System-Level Orchestration ---
+\section{System-Level Orchestration}
+\label{sec:system_level}
+System-level orchestration moves beyond single-model interventions to coordinate multiple LLM agents into collaborative architectures. Rather than controlling one model in isolation, trustworthiness here emerges from structured interaction patterns---debate, cross-verification, role specialization, and iterative self-correction. In the inference-time pipeline (Figure~\ref{fig:taxonomy_pipeline}), the tool-use / agents loop spans context assembly, generation, and output checking, creating feedback cycles that enable collective reliability.
+
+\input{sections/09-multi_agent_systems}
+
+% --- Evaluation, Challenges, Conclusion ---
+\input{sections/10-evaluation_v2}
+\input{sections/11-challenges_directions}
+\input{sections/12-conclusion}
+
+% --- Acknowledgements (optional) ---
+% \begin{acks}
+% Acknowledge funders, colleagues, etc. here.
+% \end{acks}
+
+% --- Bibliography ---
+\bibliographystyle{ACM-Reference-Format}
+\bibliography{references}
+
+
+% --- Appendix ---
+\appendix
+% \input{sections/appendix.tex}
+
+\end{document}
+
+%% End of file `main.tex'.

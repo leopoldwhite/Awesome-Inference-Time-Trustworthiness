@@ -1,0 +1,186 @@
+% \section{Pruning}
+% \label{sec:pruning}
+
+% \subsection{Core Principle: A Paradigm Shift from Efficiency to Trustworthiness}
+% % Defines Pruning as the selective removal of model components (weights, neurons, heads), reframing it from a compression technique to a coarse-grained tool for enhancing trust.
+% Model pruning has historically been framed as a technique for computational efficiency to reduce inference cost, shrink memory footprint, and accelerate deployment. Yet as large-scale models are increasingly embedded into deployed real systems, the primary motivation for pruning has shifted. Instead of simply optimizing speed and size, pruning is now leveraged as a means of enhancing trustworthiness across dimensions such as safety, fairness, privacy, factuality, and faithfulness.
+% In this new paradigm, pruning is not just about discarding redundant parameters. It becomes a form of structural governance over model behavior. By carefully identifying and removing connections or subnetworks associated with bias amplification, unsafe generations, or privacy-leaking pathways, pruning can reshape the representational space of models in ways that support responsible AI deployment.
+% Mechanisms such as fairness-aware sparsification, safety-constrained pruning, and privacy-preserving structural reduction highlight this transformation. Rather than treating trustworthiness as an external add-on, pruning integrates it directly into the model’s internal architecture. This reorientation establishes pruning as not only a tool for efficiency, but as a principle for building leaner, safer, and more equitable models.
+
+% \subsection{Applications in Trustworthiness Dimensions}
+
+% Recent studies increasingly show that looking only at perplexity or utility hides important safety shifts. A multi-dimensional audit found that compression affects degeneration harm (toxicity or stereotypes), representational harms, and dialect bias differently, and that pruning tends to degrade safety faster than quantization as sparsity rises—making safety evaluation integral to pruning pipelines, not an afterthought. Therefore, treating safety as a first-class constraint in pruning is very important by attributing safety-critical neurons before sparsification is very important. Current research prefers training-free repair (HSR, NLSR, SafePTR) when deployment constraints preclude retraining, and includes safety metrics in pruning method design, not just perplexity or task accuracy.
+
+% \subsubsection{Safety}
+% % Used to remove subnetworks hypothesized to be responsible for unsafe behaviors, potentially increasing the robustness of alignment.
+
+
+% \textbf{Safety is Brittle in Traditional Pruning} Study~\citep{wei2024assessing} identifies that, removing ~3\% of parameters (or ~2.5\% ranks) in safety-critical regions sharply harms refusal behavior without large utility loss, which evidence that aligned safety is structurally sparse and thus fragile to pruning. Research~\citep{zhang2025activation} reveals that activation approximations for model efficiency can undercut safety across methods and models. In light of this, the authors propose approximation-aware re-alignment to patch these safety losses.
+
+% \textbf{Repair safety by Pruning models.}
+% Hierarchical Safety Realignment (HSR) for LVLMs~\citep{li-etal-2025-hierarchical} attributes safety contribution at the head level, then selectively restores only a small set of neurons in those critical heads to recover safety after pruning, which is lightweight and training-free. Safety-specific neurons (SN-Tune)~\citep{zhao2025understanding} claims that safety circuitry is sparse, language-specific, and concentrated in early self-attention layers; tuning just these neurons restores safety with minimal utility impact—supporting “localizable” safety factors that pruning can inadvertently remove. Neuron-Level Safety Realignment (NLSR)~\citep{yi2025nlsr} proposes that when harmful fine-tuning compromises alignment, identify safety-critical neurons by similarity to a reference aligned model and transplant only those neurons—training-free restoration with preserved task accuracy. In SafePTR~\citep{chen2025safeptr}, the authors mention token-level pruning at vulnerable layers followed by feature restoration in later layers improves jailbreak resistance across multiple MLLMs while retaining utility.~\citep{sawtell2024lightweight} uses a pruned LM as a frozen feature extractor and trains a penalized logistic head at the best intermediate layer to detect content-safety violations and prompt injection—smaller, faster safety filters.~\citep{hasan2024pruning} claims that moderate attention-focused sparsity (~20\% in attention) can increase jailbreak resistance in already-aligned models without fine-tuning, though gains correlate with the model’s initial safety level and are not universal. Attention Pruning~\citep{dasu2025attention} learns a surrogate mapping from head on/off states to fairness/utility, then searches the Pareto front to prune bias-amplifying heads—reporting up to ~40\% gender-bias reduction.
+
+
+
+% \subsubsection{Fairness}
+% % Used to remove components, such as specific attention heads, that have been identified as major contributors to societal bias.
+% Structured fairness pruning helps the LLM to keep general performance while improving model fairness. Fairness-Aware Structured Pruning (FASP)~\citep{zayed2024fairness} identifies attention heads that harm fairness but contribute little to language modeling, pruning them to reduce gender bias (8–40\% depending on model) with only slight utility drops; code and figures detail the head-selection logic.
+
+% There are also some pruning for fairness research finds that pruning needs to pay attention to generalization, data, and attention mechanism. A systematic study on racial bias~\citep{ma2025breaking} finds neuron-level pruning generally outperforms head-level pruning for fairness, but fairness gains deteriorate when moving across contexts (e.g., financial decisions to commercial transactions), underscoring context-specific bias mechanisms and limited one-shot generalizability. Study claims that~\citep{bandari-etal-2024-c4} the dataset used to score importance during pruning strongly shapes outcomes: C4 is not universally optimal; arithmetic data can sometimes calibrate better; and pruning with a downstream dataset doesn’t necessarily help that very downstream task—implying fairness evals should be co-designed with calibration data selection. Study~\citep{zayed2024fairness} first investigates how attention heads impact fairness and performance in pre-trained transformer-based language models. The authors then propose a novel method to prune the attention heads that negatively impact fairness while retaining the heads critical for performance. This approach is practical in terms of time and resources, as it does not require fine-tuning the final pruned fairer model. 
+
+
+% \subsubsection{Privacy, Factuality and Faithfulness}
+% \textbf{Privacy} Dissecting LMs~\citep{pochinkov2024dissecting} proposes removing neurons specialized for undesired behaviors while preserving overall performance by data-efficient unlearning via pruning. Follow-ups like LLM-Eraser formalize a two-stage localize then unlearn process to erase harmful or sensitive knowledge more precisely. For MLLMs, modality-aware neuron selection~\citep{liu-etal-2025-modality} selective pruning balances forgetting targeted private data across modalities while retaining core capability. In federated pruning for privacy-sensitive domains, FedPrLLM~\citep{guo2025exploring} lets clients compute and share only pruning masks (no raw data), enabling a server to aggregate a globally pruned model, which reduces reliance on public calibration data and keeps local data private. 
+
+% \textbf{Factuality} A large study~\citep{chrysostomou2024investigating} on abstractive summarization (5 LLMs, 2 pruning methods, 5 datasets) finds pruned models hallucinate less and rely more on source content (higher lexical overlap), suggesting pruning can filter spurious pathways and nudge models toward evidence-based generation such as summarization. Generalization to other tasks still needs testing.
+
+% \textbf{Faithfulness}
+% Faithfulness framework~\citep{lanham2023measuring} show that CoT-style explanations can be unfaithful to internal reasoning; evaluations intervene on the CoT or model to probe causal dependence. While there isn’t yet a pruning-specific faithfulness benchmark, combining (i) the hallucination reduction result above and (ii) safety-neuron localization findings suggests a path: prune shortcut-driven or “ungrounded” units, then validate with faithfulness tests (e.g., CoT intervention/unlearning-based diagnostics). 
+
+% \subsection{Discussion: The Blunt Instrument Dilemma}
+% % Strengths: Offers a permanent, parameter-reducing intervention that can completely remove certain functionalities.
+% % Limitations: Pruning is a coarse-grained "blunt instrument"; components are often polysemantic, making it difficult to remove bad behaviors without degrading good ones, and identification of what to prune is a major challenge.
+
+\subsection{Pruning}
+
+\begin{figure}[htbp]
+\centering
+% Width uses \textwidth; height auto-scales with !
+\resizebox{\textwidth}{!}{%
+\begin{tikzpicture}
+% % --- 1. Define leaf nodes (papers, citations added) ---
+% \node[leaf] (safety_papers) {
+% Wei et al.~\citep{wei2024assessing}, Zhang et al.~\citep{zhang2025activation}, HSR~\citep{li-etal-2025-hierarchical}, SN-Tune~\citep{zhao2025understanding}, NLSR~\citep{yi2025nlsr}, SafePTR~\citep{chen2025safeptr}, Sawtell et al.~\citep{sawtell2024lightweight}, Hasan et al.~\citep{hasan2024pruning}.
+% };
+% \node[leaf, below=0.3cm of safety_papers] (fairness_papers) {
+% FASP~\citep{zayed2024fairness}, Ma et al.~\citep{ma2025breaking}, Bandari et al.~\citep{bandari-etal-2024-c4}, Attention-State Pruning~\citep{dasu2025attention}.
+% };
+% \node[leaf, below=0.3cm of fairness_papers] (privacy_papers) {
+% Dissecting LMs~\citep{pochinkov2024dissecting}, Liu et al.~\citep{liu-etal-2025-modality}, FedPrLLM~\citep{guo2025exploring}.
+% };
+% \node[leaf, below=0.3cm of privacy_papers] (factuality_papers) {
+% Chrysostomou et al.~\citep{chrysostomou2024investigating}, Lanham et al.~\citep{lanham2023measuring}.
+% };
+
+% --- 1. Define leaf nodes (papers, citations added) ---
+\node[leaf] (safety_papers) {
+Wei et al.~\citep{wei2024assessing}, Zhang et al.~\citep{zhang2025activation}, SafePTR~\citep{chen2025safeptr}.
+};
+\node[leaf, below=0.3cm of safety_papers] (fairness_papers) {
+FASP~\citep{zayed2024fairness}, Ma et al.~\citep{ma2025breaking}.
+};
+\node[leaf, below=0.3cm of fairness_papers] (privacy_papers) {
+Dissecting LMs~\citep{pochinkov2024dissecting}, Liu et al.~\citep{liu-etal-2025-modality}, FedPrLLM~\citep{guo2025exploring}.
+};
+\node[leaf, below=0.3cm of privacy_papers] (factuality_papers) {
+Chrysostomou et al.~\citep{chrysostomou2024investigating}.
+};
+
+% --- 2. Define main sub-nodes (Trustworthiness dimensions) ---
+% Positioned to the left of corresponding leaf nodes
+\node[sub, left=0.5cm of safety_papers] (safety) {Safety};
+\node[sub, left=0.5cm of fairness_papers] (fairness) {Fairness};
+\node[sub, left=0.5cm of privacy_papers] (privacy) {Privacy};
+\node[sub, left=0.5cm of factuality_papers] (factuality) {Factuality \& Faithfulness};
+% --- 3. Define root node ---
+% Use the calc library to vertically center the root node relative to the sub-nodes
+\node[main, left=2.5cm of {$(safety.west)!0.5!(factuality.west)$}] (pruning) {Pruning (§\ref{sec:pruning-core})};
+% --- 4. Draw connection lines ---
+% a. Draw a main trunk from the root node to a branching point
+\coordinate (fork) at ($(pruning.east)+(1.25cm,0)$);
+\draw[line] (pruning.east) -- (fork);
+% b. Connect from main branching point to each sub-node
+\draw[line] (fork) |- (safety.west);
+\draw[line] (fork) |- (fairness.west);
+\draw[line] (fork) |- (privacy.west);
+\draw[line] (fork) |- (factuality.west);
+% c. Connect main sub-nodes directly to leaf nodes
+\draw[line] (safety.east) -- (safety_papers.west);
+\draw[line] (fairness.east) -- (fairness_papers.west);
+\draw[line] (privacy.east) -- (privacy_papers.west);
+\draw[line] (factuality.east) -- (factuality_papers.west);
+\end{tikzpicture}%
+}
+\caption{A taxonomy of Pruning for enhancing LLM trustworthiness.}
+\label{fig:pruning_taxonomy}
+\end{figure}
+
+\subsubsection{Core Principle.}
+\label{sec:pruning-core}
+
+% Pruning has traditionally been justified as an efficiency tool—reducing inference cost, memory footprint, and latency. As foundation models move from research prototypes to safety- and regulation–constrained deployments, this framing is incomplete. The motivation is shifting from \emph{how fast and small} to \emph{how safe, fair, private, and faithful}. 
+
+% In this view, pruning is not merely the removal of redundant weights; it is \textbf{structural governance} over behavior. By identifying and excising connections or subnetworks implicated in bias amplification, unsafe generations, or privacy leakage, pruning reshapes representational pathways to support responsible deployment. Mechanisms such as fairness-aware sparsification, safety-constrained pruning, and privacy-preserving structural reduction embed trust objectives inside the architecture itself rather than treating them as after-the-fact add-ons. This reorientation positions pruning as a principle for building leaner, safer, and more equitable models—not only a vehicle for speedups.
+
+Pruning has traditionally been studied as a tool for improving efficiency by reducing inference cost, memory footprint, and latency. As foundation models move into safety- and regulation-sensitive settings, this framing is no longer sufficient. The key question is no longer only how to make models smaller or faster, but also how to make them safer, fairer, more privacy-preserving, and more reliable.
+
+From this perspective, pruning becomes a form of structural control over model behavior rather than a purely efficiency-driven reduction technique. By selectively suppressing weights, neurons, heads, or subnetworks associated with bias amplification, unsafe generation, or privacy leakage, pruning can reshape the pathways through which the model produces outputs. Methods such as fairness-aware sparsification, safety-constrained pruning, and privacy-oriented structural reduction reflect this shift by embedding trust-related objectives into the model's active computation rather than treating them only as post hoc corrections. Under this view, pruning serves not only to improve efficiency, but also to support leaner and more trustworthy deployment.
+
+\subsubsection{Applications.}
+\label{sec:pruning-dimensions}
+
+% Empirical evidence shows that looking only at perplexity/utility can mask significant safety shifts. Multi-axis audits report that compression differentially affects degeneration harms (toxicity/stereotypes), representational harms, and dialect bias, and that sparsification often harms safety faster than quantization as sparsity increases. Consequently, safety must be treated as a first-class constraint in pruning: attribute safety-critical units \emph{before} sparsification and include safety metrics \emph{during} method design, not as an afterthought. When retraining is infeasible, training-free repair methods (e.g., HSR, NLSR, SafePTR) are increasingly preferred, as they restore safety with minimal compute and drift.
+
+Empirical evidence shows that utility metrics alone can miss important trustworthiness shifts after pruning. Compression may preserve perplexity while still degrading refusal behavior, toxicity control, or other safety properties. This means safety should be treated as a first-class constraint in pruning rather than checked only after compression.
+
+
+\paragraph{Safety}
+\label{sec:pruning-safety}
+
+% \paragraph{Brittleness under naive pruning.}
+%~\citet{wei2024assessing} show that removing only $\sim$3\% of parameters (or $\sim$2.5\% ranks) in safety-critical regions sharply degrades refusal behavior despite small utility loss, indicating aligned safety is structurally sparse—and fragile—to pruning.~\citet{zhang2025activation} further find that activation approximations for efficiency can undercut safety across models and methods, motivating approximation-aware realignment to patch these losses.
+
+% \paragraph{Safety repair via structure-aware pruning and restoration.}
+% For LVLMs, \textbf{HSR}~\citep{li-etal-2025-hierarchical} attributes safety at the \emph{head} level and selectively restores a small neuron subset in critical heads post-pruning—lightweight and training-free. \textbf{SN-Tune}~\citep{zhao2025understanding} localizes safety circuitry to sparse, language-specific neurons concentrated in early self-attention; tuning only these units restores refusals with minimal utility impact, explaining why indiscriminate pruning can remove them. \textbf{NLSR}~\citep{yi2025nlsr} detects safety-critical neurons by similarity to a reference aligned model and transplants only those neurons, preserving accuracy while re-aligning refusals. \textbf{SafePTR}~\citep{chen2025safeptr} combines token-level pruning at vulnerable layers with feature restoration downstream, improving jailbreak resistance across MLLMs. Complementary approaches include using a pruned LM as a frozen feature extractor with a penalized logistic head for content-safety and prompt-injection detection~\citep{sawtell2024lightweight}, and observations that moderate attention-focused sparsity ($\sim$20\%) can harden already-aligned models, albeit non-universally~\citep{hasan2024pruning}. Finally, \textbf{attention-state pruning} learns a surrogate from head on/off patterns to fairness–utility trade-offs and searches the Pareto front to prune bias-amplifying heads~\citep{dasu2025attention}.
+
+Naive pruning can weaken safety even when utility loss is small.~\citet{wei2024assessing} show that removing only $\sim$3\% of parameters, or $\sim$2.5\% of low-rank components, in safety-critical regions can sharply degrade refusal behavior, suggesting that aligned safety depends on structurally sparse components.~\citet{zhang2025activation} further show that efficiency-oriented activation approximation can also introduce safety vulnerabilities, reinforcing the need to account for safety during compression rather than after it. Recent work therefore explores more targeted pruning strategies. In multimodal LLMs, SafePTR~\citep{chen2025safeptr} selectively prunes harmful tokens at vulnerable layers and restores benign features at later layers, improving jailbreak resistance while preserving utility. Overall, these results suggest that pruning can support safety only when the intervention is explicitly trust-aware. Otherwise, compression may remove precisely the components that sustain aligned behavior.
+
+
+\paragraph{Fairness}
+\label{sec:pruning-fairness}
+
+Fairness-oriented pruning is less clearly aligned with inference-time trustworthiness than safety-oriented runtime pruning. Existing work mainly studies post-processing structural interventions, such as pruning attention heads associated with bias or comparing head- and neuron-level pruning for bias mitigation~\citep{zayed2024fairness, ma2025breaking}. These results suggest that selective structural suppression can reduce bias, but they are better viewed as adjacent pruning-based debiasing methods than as clean inference-time interventions. As a result, fairness remains relatively underexplored for pruning under the stricter inference-time setting considered here.
+
+% \paragraph{Structured pruning.}
+% \textbf{FASP}~\citep{zayed2024fairness} identifies attention heads that harm fairness yet contribute little to language modeling, pruning them to reduce gender bias (8–40\% depending on model) with minor utility drops; the head-selection logic and code are released.
+
+% \paragraph{Generalization, data choice, and mechanism.}
+% A racial-bias study finds neuron-level pruning generally outperforms head-level pruning for fairness, but gains deteriorate when moving across domains (e.g., financial $\rightarrow$ commercial), underscoring context-specific bias mechanisms and limited one-shot generalization~\citep{ma2025breaking}. Data used to score importance strongly shapes outcomes: C4 is not universally optimal; arithmetic data can sometimes calibrate better; and pruning with a downstream dataset does not necessarily help that very task~\citep{bandari-etal-2024-c4}. Together with~\citet{zayed2024fairness}, these results argue for co-design of fairness evaluation with calibration data selection and for mechanism-aware (head vs.\ neuron) sparsification.
+
+\paragraph{Privacy}
+Pruning has also been explored for privacy protection, though much of this work is closer to deployment-oriented structural intervention than to strict runtime control during generation. Existing methods identify and remove neurons or subnetworks associated with memorized sensitive content, aiming to suppress privacy leakage while preserving general utility. Examples include data-efficient neuron pruning in language models, modality-aware pruning in MLLMs, and federated pruning schemes that exchange pruning masks rather than raw data~\citep{pochinkov2024dissecting, liu-etal-2025-modality, guo2025exploring}. These results suggest that pruning can support privacy-preserving deployment, but most current methods rely on structural modification before deployment rather than conditional pruning at inference time.
+
+\paragraph{Factuality and Faithfulness}
+Pruning has also shown some potential for improving factual reliability, although evidence remains limited. One large summarization study reports that pruned models hallucinate less and rely more on source content, suggesting that pruning may suppress spurious generation pathways~\citep{chrysostomou2024investigating}. However, it is still unclear whether this effect transfers beyond summarization or supports stronger notions of faithfulness. At present, factuality and faithfulness remain promising but underexplored directions for pruning in trustworthy model deployment.
+
+% \paragraph{Privacy, Factuality, and Faithfulness}
+% \label{sec:pruning-privacy-fact}
+
+% \paragraph{Privacy.}
+% \textbf{Dissecting LMs}~\citep{pochinkov2024dissecting} removes neurons specialized for undesired behaviors via data-efficient unlearning through pruning, preserving overall performance. Follow-ups (e.g., LLM-Eraser) formalize \emph{localize\,\textrightarrow\,unlearn} workflows for precise erasure. In MLLMs, \emph{modality-aware} neuron selection prunes to forget private data while retaining core capability~\citep{liu-etal-2025-modality}. In privacy-sensitive federated settings, \textbf{FedPrLLM}~\citep{guo2025exploring} aggregates only pruning masks across clients (no raw data), reducing reliance on public calibration data and preserving local privacy.
+
+% \paragraph{Factuality.}
+% A large abstractive-summarization study (5 LLMs, 2 pruning methods, 5 datasets) reports that pruned models hallucinate less and rely more on source content (higher lexical overlap), suggesting pruning can suppress spurious pathways and nudge models toward evidence-based generation~\citep{chrysostomou2024investigating}. Whether this effect transfers beyond summarization remains open.
+
+% \paragraph{Faithfulness.}
+% Faithfulness evaluations show CoT explanations can be unfaithful to internal reasoning~\citep{lanham2023measuring}. While pruning-specific faithfulness benchmarks are nascent, two strands point to a practical recipe: (i) pruning reduces shortcut-driven hallucinations in summarization~\citep{chrysostomou2024investigating}; (ii) safety-neuron localization suggests targeted removal of “ungrounded” units. A promising protocol is to prune candidate shortcut circuits, then validate with causal faithfulness tests (e.g., CoT intervention or unlearning-style diagnostics).
+
+
+
+% \subsubsection{Discussion}
+% \label{sec:pruning-discussion}
+
+% \paragraph{Takeaways.}
+% Across dimensions, pruning should (1) attribute trust-critical structure prior to sparsification, (2) optimize for multi-objective trade-offs (utility \emph{and} safety/fairness/privacy), and (3) include post-pruning repair paths that are training-free when deployment 
+
+% \paragraph{Strengths}
+% A trust-centric view of pruning offers \textbf{direct, structural control} over model behavior. By acting on interpretable units (layers, heads, neurons), practitioners can align architectural pathways with policy goals (safety, fairness, privacy) rather than relying solely on post hoc filtering. This yields auditable interventions: which units were removed, why, and with what effect can be documented and revisited.
+% Second, pruning enables multi-objective co-optimization of efficiency and trust. Many of the safety/fairness–aware methods are training-free or minimally adaptive (e.g., targeted restoration), making them attractive under tight deployment budgets. Pruning is also composable with quantization, KV-cache strategies, or distillation, offering an orthogonal lever in practical pipelines.
+% Finally, the paradigm generalizes beyond text. Modality-aware selection in MLLMs and mask aggregation in federated settings demonstrate that structural governance via pruning can support privacy and safety constraints under diverse data and orchestration regimes.
+
+% \paragraph{Limitations}
+% The same sparsity that makes safety circuits identifiable can render them fragile: small amounts of indiscriminate sparsification can collapse refusal behavior or fairness gains. Importance scores that drive pruning decisions are noisy and data-dependent; attribution errors produce collateral damage (utility loss, new biases), and gains may not generalize across domains or dialects.
+% Pruning alone does not close adversarial gaps. Attackers can route around removed paths; defenses require complementary detection/refusal layers and continual red-teaming. From a systems perspective, unstructured masks often underutilize hardware; structured sparsity or block-level designs are needed to realize speedups on modern accelerators.
+% Evaluation remains a bottleneck. Trustworthiness effects are under-measured: multi-turn, long-horizon, and domain-shifted audits are rare; trade-off fronts (utility–safety–fairness–privacy) are seldom reported with confidence intervals. Finally, current methods lack formal guarantees (privacy erasure vs.\ suppression, causal fairness bounds) and can drift after further fine-tuning or continued pretraining unless masks and metrics are versioned and monitored.
+
+
