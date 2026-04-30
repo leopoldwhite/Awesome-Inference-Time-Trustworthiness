@@ -1,0 +1,846 @@
+/* ============================================================
+   Inference-Time Trustworthy Survey — companion page
+   Academic-press typography. No marketing flourishes;
+   investment goes into hierarchy, whitespace, and figure framing.
+   ============================================================ */
+
+:root {
+  --fg:           #1c1c1e;
+  --fg-soft:      #2c2c30;
+  --fg-muted:     #565b66;
+  --fg-faint:     #8b909a;
+  --bg:           #ffffff;
+  --bg-soft:      #fafbfc;
+  --bg-soft-2:    #f4f5f8;
+  --rule:         #d3d7df;
+  --rule-soft:    #e8eaef;
+
+  --accent:       #1859c2;       /* TrustLLM-style blue */
+  --accent-hover: #0c3a87;
+  --accent-soft:  #e9f0fb;
+  --accent-bar:   #2a6fd0;
+
+  --tier1:        #0e7c8a;       /* deep cyan */
+  --tier2:        #6c4cc7;       /* deep lavender */
+  --tier3:        #15803d;       /* deep green */
+
+  --shadow-fig:   0 1px 3px rgba(20, 35, 70, 0.06),
+                  0 6px 20px rgba(20, 35, 70, 0.07);
+
+  --max-width:    920px;
+  --max-text:     760px;
+
+  --font-text:    "Source Sans Pro", "Open Sans", -apple-system,
+                  BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+  --font-display: "Source Serif Pro", "Charter", "Iowan Old Style", Georgia,
+                  Cambria, "Times New Roman", Times, serif;
+  --font-mono:    "JetBrains Mono", "SFMono-Regular", "Menlo", "Consolas",
+                  monospace;
+}
+
+* { box-sizing: border-box; }
+
+html {
+  font-size: 17px;
+  scroll-behavior: smooth;
+  scroll-padding-top: 1rem;        /* no sticky nav, just a small breathing-room */
+}
+
+body {
+  margin: 0;
+  padding: 0;
+  font-family: var(--font-text);
+  font-size: 1rem;
+  line-height: 1.72;
+  color: var(--fg);
+  background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+  transition: color 0.12s ease;
+}
+a:hover { color: var(--accent-hover); text-decoration: underline; }
+
+p { margin: 1em 0; }
+
+/* ============================================================
+   HERO
+   ============================================================ */
+header.hero {
+  position: relative;
+  text-align: center;
+  padding: 4.5rem 1.5rem 3.2rem;
+  background: var(--bg);
+  border-bottom: 1px solid var(--rule);
+  overflow: hidden;
+}
+header.hero::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background-image: radial-gradient(circle, var(--rule-soft) 1px, transparent 1px);
+  background-size: 22px 22px;
+  pointer-events: none;
+  opacity: 0.55;
+  mask-image: radial-gradient(ellipse at center, #000 25%, transparent 78%);
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 25%, transparent 78%);
+}
+header.hero > * { position: relative; }
+
+header.hero h1 {
+  font-family: var(--font-display);
+  font-size: clamp(1.85rem, 3.7vw, 2.7rem);
+  line-height: 1.2;
+  margin: 0 auto;
+  max-width: 880px;
+  font-weight: 700;
+  color: var(--fg);
+  letter-spacing: -0.012em;
+}
+header.hero .subtitle {
+  font-family: var(--font-display);
+  margin-top: 0.7rem;
+  font-size: 1.1rem;
+  font-style: italic;
+  color: var(--fg-muted);
+  max-width: 660px;
+  margin-inline: auto;
+}
+
+.authors {
+  margin: 2.1rem auto 0.4rem;
+  max-width: 820px;
+  font-size: 0.98rem;
+  line-height: 1.85;
+  color: var(--fg);
+}
+.authors sup { color: var(--fg-faint); font-size: 0.7em; }
+.affiliations {
+  font-size: 0.86rem;
+  color: var(--fg-muted);
+  max-width: 820px;
+  margin: 0.45rem auto 0;
+  line-height: 1.6;
+}
+.affiliations sup { color: var(--fg); font-weight: 600; }
+.contrib-key {
+  margin-top: 0.4rem;
+  font-size: 0.82rem;
+  color: var(--fg-faint);
+}
+
+/* ----- Nerfies-style hero buttons (pill, dark) ----- */
+.publication-links {
+  margin-top: 1.8rem;
+  display: flex;
+  flex-wrap: wrap;
+  gap: 0.55rem;
+  justify-content: center;
+}
+.publication-links .link-block { display: inline-block; }
+
+.btn.pill {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.55rem 1.2rem;
+  font-size: 0.92rem;
+  font-weight: 500;
+  border-radius: 999px;
+  background: #2a2a2e;
+  color: #fff;
+  border: 1px solid #2a2a2e;
+  text-decoration: none;
+  transition: background 0.14s, transform 0.12s;
+}
+.btn.pill:hover {
+  background: #0a0a0c;
+  color: #fff;
+  text-decoration: none;
+  transform: translateY(-1px);
+}
+.btn.pill .icon { font-size: 1em; }
+.btn.pill.disabled {
+  background: #c4c7cf;
+  border-color: #c4c7cf;
+  color: #f4f5f8;
+  cursor: not-allowed;
+  pointer-events: none;
+}
+
+/* ----- in-body buttons (Repository CTA) ----- */
+.btn:not(.pill) {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.5rem 1.1rem;
+  font-size: 0.93rem;
+  font-weight: 500;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: #fff;
+  color: var(--fg);
+  text-decoration: none;
+  transition: all 0.12s;
+}
+.btn:not(.pill):hover {
+  border-color: var(--accent);
+  color: var(--accent);
+  text-decoration: none;
+}
+.btn:not(.pill).primary {
+  background: var(--accent);
+  color: #fff;
+  border-color: var(--accent);
+}
+.btn:not(.pill).primary:hover {
+  background: var(--accent-hover);
+  border-color: var(--accent-hover);
+  color: #fff;
+}
+
+/* ============================================================
+   BODY content (numbered sections, generous whitespace)
+   ============================================================ */
+main {
+  max-width: var(--max-width);
+  margin: 0 auto;
+  padding: 2rem 1.5rem 3.5rem;
+  counter-reset: section;
+}
+
+/* Generic body section spacing */
+main section {
+  margin-top: 3.4rem;
+  scroll-margin-top: 1rem;
+}
+main section:first-child { margin-top: 1.6rem; }
+
+/* H2 — auto-numbered, with thin accent bar */
+main h2 {
+  counter-increment: section;
+  font-family: var(--font-display);
+  font-size: clamp(1.45rem, 2.2vw, 1.7rem);
+  font-weight: 700;
+  color: var(--fg);
+  margin: 0 0 0.2rem;
+  letter-spacing: -0.005em;
+  display: flex;
+  align-items: baseline;
+  gap: 0.7rem;
+}
+main h2::before {
+  content: counter(section, decimal) ".";
+  font-family: var(--font-display);
+  font-weight: 400;
+  font-style: italic;
+  color: var(--fg-faint);
+  font-size: 0.8em;
+  letter-spacing: 0;
+}
+/* ornament: thin double-line under H2 */
+main h2 + .rule {
+  margin: 0.45rem 0 1.4rem;
+  height: 4px;
+  border: 0;
+  background:
+    linear-gradient(to bottom,
+      var(--rule) 0,    var(--rule) 1px,
+      transparent 1px,  transparent 3px,
+      var(--rule-soft) 3px, var(--rule-soft) 4px);
+  position: relative;
+}
+main h2 + .rule::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0;
+  width: 56px; height: 1px;
+  background: var(--accent-bar);
+}
+
+/* H3 — for sub-categories within tier sections */
+main h3 {
+  font-family: var(--font-display);
+  font-size: 1.18rem;
+  font-weight: 600;
+  color: var(--fg);
+  margin: 1.9rem 0 0.4rem;
+  position: relative;
+  padding-left: 0.7rem;
+}
+main h3::before {
+  content: "";
+  position: absolute;
+  left: 0; top: 0.45em;
+  height: 0.7em;
+  width: 3px;
+  background: var(--accent);
+  border-radius: 2px;
+}
+
+main p {
+  font-size: 1.02rem;
+  line-height: 1.78;
+  color: var(--fg-soft);
+  margin: 0.95rem 0;
+  max-width: var(--max-text);
+}
+
+main p strong { color: var(--fg); font-weight: 600; }
+
+main section > p:first-of-type::first-letter {
+  /* small drop-cap for the lead paragraph of each section */
+}
+
+main ul, main ol {
+  padding-left: 1.5rem;
+  line-height: 1.78;
+  max-width: var(--max-text);
+}
+main ul li, main ol li {
+  margin: 0.6rem 0;
+  color: var(--fg-soft);
+}
+main ol {
+  counter-reset: numbered;
+  list-style: none;
+  padding-left: 0;
+}
+main ol > li {
+  counter-increment: numbered;
+  position: relative;
+  padding-left: 2.6rem;
+  margin: 0.95rem 0;
+}
+main ol > li::before {
+  content: counter(numbered, decimal-leading-zero);
+  position: absolute;
+  left: 0; top: 0.05em;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-weight: 400;
+  font-size: 1.15rem;
+  color: var(--accent);
+  letter-spacing: 0;
+}
+
+/* ============================================================
+   Tier H2 markers — small colored dot before number
+   ============================================================ */
+main h2.tier { padding-left: 0; }
+main h2.tier::after {
+  content: "";
+  display: inline-block;
+  width: 9px; height: 9px;
+  border-radius: 50%;
+  margin-left: 0.5rem;
+  vertical-align: middle;
+  background: var(--accent);
+}
+main h2.tier.t1::after { background: var(--tier1); box-shadow: 0 0 0 3px rgba(14,124,138,0.12); }
+main h2.tier.t2::after { background: var(--tier2); box-shadow: 0 0 0 3px rgba(108,76,199,0.12); }
+main h2.tier.t3::after { background: var(--tier3); box-shadow: 0 0 0 3px rgba(21,128,61,0.12); }
+
+/* ============================================================
+   FIGURE — academic press style
+   ============================================================ */
+figure {
+  margin: 2rem auto 1.7rem;
+  text-align: center;
+  max-width: 100%;
+}
+figure .frame {
+  display: inline-block;
+  padding: 8px;
+  background: #fff;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  box-shadow: var(--shadow-fig);
+  max-width: 100%;
+}
+figure .frame img {
+  max-width: 100%;
+  height: auto;
+  display: block;
+}
+figure figcaption {
+  font-family: var(--font-display);
+  font-size: 0.92rem;
+  color: var(--fg-muted);
+  text-align: justify;
+  max-width: 720px;
+  margin: 1rem auto 0;
+  line-height: 1.6;
+  position: relative;
+  padding-left: 0;
+}
+figure figcaption .fig-label {
+  font-weight: 700;
+  font-style: normal;
+  color: var(--fg);
+}
+figure figcaption b { color: var(--fg); }
+
+/* ============================================================
+   COMPARISON TABLE — refined
+   ============================================================ */
+.table-wrap {
+  overflow-x: auto;
+  margin: 1.4rem 0 0.4rem;
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  background: #fff;
+}
+table.comparison {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.86rem;
+  font-family: var(--font-text);
+}
+table.comparison th,
+table.comparison td {
+  padding: 0.55rem 0.7rem;
+  text-align: center;
+  border-bottom: 1px solid var(--rule-soft);
+  white-space: nowrap;
+}
+table.comparison thead th {
+  background: var(--bg-soft-2);
+  color: var(--fg);
+  font-weight: 600;
+  font-size: 0.82rem;
+  border-bottom: 2px solid var(--rule);
+}
+table.comparison thead th.group {
+  background: var(--accent-soft);
+  color: var(--accent-hover);
+  font-family: var(--font-display);
+  font-weight: 600;
+  letter-spacing: 0.01em;
+}
+table.comparison td.row-name {
+  text-align: left;
+  font-weight: 500;
+  color: var(--fg);
+  background: var(--bg-soft);
+  white-space: normal;
+  min-width: 220px;
+  font-size: 0.86rem;
+}
+table.comparison tbody tr:nth-child(odd):not(.ours) td:not(.row-name) {
+  background: var(--bg-soft);
+}
+table.comparison tbody tr.ours td {
+  font-weight: 700;
+  background: #fffaeb;
+}
+table.comparison tbody tr.ours td.row-name {
+  color: var(--accent-hover);
+  background: #fff4d4;
+  border-left: 2px solid var(--accent);
+}
+table.comparison .yes { color: #15803d; font-weight: 700; }
+table.comparison .no  { color: #b91c1c; font-weight: 400; opacity: 0.65; }
+
+/* ============================================================
+   BIBTEX — academic monospace
+   ============================================================ */
+pre.bibtex {
+  background: #f6f7f9;
+  border: 1px solid var(--rule);
+  border-left: 3px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  padding: 1.05rem 1.2rem;
+  font-family: var(--font-mono);
+  font-size: 0.85rem;
+  line-height: 1.6;
+  color: var(--fg);
+  overflow-x: auto;
+  white-space: pre;
+  margin: 1rem 0 0.5rem;
+  max-width: var(--max-text);
+}
+
+/* ============================================================
+   BIBTEX wrap with copy button
+   ============================================================ */
+.bibtex-wrap {
+  position: relative;
+  max-width: var(--max-text);
+}
+.copy-btn {
+  position: absolute;
+  top: 0.55rem;
+  right: 0.6rem;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  padding: 0.28rem 0.62rem;
+  font-family: var(--font-text);
+  font-size: 0.78rem;
+  font-weight: 500;
+  color: var(--fg-muted);
+  background: rgba(255, 255, 255, 0.92);
+  border: 1px solid var(--rule);
+  border-radius: 4px;
+  cursor: pointer;
+  transition: color 0.12s, border-color 0.12s, background 0.12s;
+  z-index: 2;
+  user-select: none;
+}
+.copy-btn:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  background: #fff;
+}
+.copy-btn.copied {
+  color: #15803d;
+  border-color: #15803d;
+}
+.copy-btn i { font-size: 0.92em; }
+
+/* ============================================================
+   FOOTER
+   ============================================================ */
+footer {
+  margin-top: 4rem;
+  padding: 2.2rem 1.5rem;
+  border-top: 1px solid var(--rule);
+  text-align: center;
+  font-family: var(--font-display);
+  font-size: 0.88rem;
+  font-style: italic;
+  color: var(--fg-muted);
+  background: var(--bg-soft);
+}
+footer p { margin: 0.3rem 0; }
+footer a { color: var(--fg-muted); }
+
+/* ============================================================
+   PULL-QUOTE  (one-sentence highlight per Tier section)
+   ============================================================ */
+blockquote.pullquote {
+  margin: 1.6rem 0 1.4rem;
+  padding: 0.85rem 1.3rem 0.85rem 1.5rem;
+  font-family: var(--font-display);
+  font-size: 1.12rem;
+  font-style: italic;
+  font-weight: 400;
+  line-height: 1.55;
+  color: var(--fg);
+  background: linear-gradient(to right, var(--bg-soft) 0%, transparent 100%);
+  border-left: 4px solid var(--accent);
+  border-radius: 0 4px 4px 0;
+  max-width: var(--max-text);
+  position: relative;
+}
+blockquote.pullquote::before {
+  content: "\201C";       /* fancy left double-quote */
+  position: absolute;
+  left: 0.4rem;
+  top: 0.1em;
+  font-family: var(--font-display);
+  font-size: 2.6rem;
+  line-height: 1;
+  color: var(--rule);
+  font-style: normal;
+  pointer-events: none;
+}
+blockquote.pullquote.t1 { border-left-color: var(--tier1); }
+blockquote.pullquote.t2 { border-left-color: var(--tier2); }
+blockquote.pullquote.t3 { border-left-color: var(--tier3); }
+blockquote.pullquote.t1::before { color: rgba(14,124,138, 0.18); }
+blockquote.pullquote.t2::before { color: rgba(108,76,199, 0.18); }
+blockquote.pullquote.t3::before { color: rgba(21,128,61,  0.18); }
+
+/* ============================================================
+   PAGE LAYOUT  (main + sticky TOC sidebar)
+   ============================================================ */
+.page-layout {
+  display: block;          /* default: stacked, no TOC */
+}
+.toc-side {
+  display: none;           /* mobile default */
+}
+
+@media (min-width: 1180px) {
+  .page-layout {
+    display: grid;
+    grid-template-columns: minmax(0, var(--max-width)) 188px;
+    gap: 2.4rem;
+    max-width: calc(var(--max-width) + 188px + 2.4rem);
+    margin: 0 auto;
+    padding: 0 1.5rem;
+    align-items: start;
+  }
+}
+
+/* Very wide screens: more generous main + a touch wider TOC */
+@media (min-width: 1500px) {
+  :root { --max-width: 980px; }
+  .page-layout {
+    grid-template-columns: minmax(0, var(--max-width)) 220px;
+    gap: 3rem;
+    max-width: calc(var(--max-width) + 220px + 3rem);
+  }
+  .toc-side { font-size: 0.86rem; }
+  /* keep text column readable — figures can fill the wider main */
+  main p, main ul, main ol { max-width: 800px; }
+  figure figcaption { max-width: 800px; }
+}
+
+@media (min-width: 1180px) {
+  /* duplicate marker block — consolidate close braces below */
+  .page-layout > main { padding-left: 0; padding-right: 0; }
+  .toc-side {
+    display: block;
+    position: sticky;
+    top: 1.5rem;
+    max-height: calc(100vh - 3rem);
+    overflow-y: auto;
+    font-size: 0.83rem;
+    line-height: 1.55;
+    padding: 1.6rem 0 1rem 1rem;
+    border-left: 1px solid var(--rule-soft);
+  }
+  .toc-side .toc-title {
+    font-family: var(--font-text);
+    font-size: 0.7rem;
+    font-weight: 700;
+    letter-spacing: 0.14em;
+    text-transform: uppercase;
+    color: var(--fg-faint);
+    margin-bottom: 0.7rem;
+  }
+  .toc-side ol {
+    list-style: none;
+    counter-reset: toc;
+    padding: 0;
+    margin: 0;
+  }
+  .toc-side ol li {
+    counter-increment: toc;
+    margin: 0.05rem 0;
+  }
+  .toc-side ol li a {
+    display: block;
+    padding: 0.28rem 0.55rem 0.28rem 0;
+    color: var(--fg-muted);
+    text-decoration: none;
+    border-left: 2px solid transparent;
+    margin-left: -1rem;
+    padding-left: 0.85rem;
+    transition: color 0.12s, border-color 0.12s;
+    position: relative;
+  }
+  .toc-side ol li a::before {
+    content: counter(toc, decimal-leading-zero) "  ";
+    color: var(--fg-faint);
+    font-family: var(--font-display);
+    font-style: italic;
+    margin-right: 0.4em;
+  }
+  .toc-side ol li a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .toc-side ol li a.active {
+    color: var(--accent);
+    border-left-color: var(--accent);
+    font-weight: 600;
+  }
+  .toc-side ol li a.active::before { color: var(--accent); }
+}
+
+/* ============================================================
+   BACK-TO-TOP FAB
+   ============================================================ */
+.back-top {
+  position: fixed;
+  right: 1.4rem;
+  bottom: 1.4rem;
+  width: 42px;
+  height: 42px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.96);
+  border: 1px solid var(--rule);
+  box-shadow: 0 4px 14px rgba(20, 35, 70, 0.12);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: var(--fg-muted);
+  text-decoration: none;
+  cursor: pointer;
+  opacity: 0;
+  pointer-events: none;
+  transform: translateY(8px);
+  transition: opacity 0.2s ease, transform 0.2s ease, color 0.12s;
+  z-index: 60;
+}
+.back-top.visible {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+}
+.back-top:hover {
+  color: var(--accent);
+  border-color: var(--accent);
+  text-decoration: none;
+}
+.back-top svg {
+  width: 16px;
+  height: 16px;
+}
+
+/* ============================================================
+   SECTION HEADING ANCHOR (hover # link)
+   ============================================================ */
+main h2 {
+  position: relative;
+}
+main h2 .anchor-link {
+  opacity: 0;
+  margin-left: 0.4rem;
+  font-weight: 400;
+  color: var(--fg-faint);
+  text-decoration: none;
+  font-size: 0.9em;
+  transition: opacity 0.15s ease, color 0.15s ease;
+}
+main h2:hover .anchor-link {
+  opacity: 1;
+}
+main h2 .anchor-link:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+/* ============================================================
+   NEWS list (richer)
+   ============================================================ */
+.news-list {
+  list-style: none;
+  padding: 0;
+  margin: 0.6rem 0 0;
+  max-width: var(--max-text);
+}
+.news-list li {
+  display: flex;
+  gap: 0.95rem;
+  align-items: baseline;
+  padding: 0.55rem 0;
+  border-bottom: 1px dotted var(--rule);
+  font-size: 0.97rem;
+}
+.news-list li:last-child { border-bottom: none; }
+.news-list .date {
+  flex-shrink: 0;
+  font-family: var(--font-display);
+  font-style: italic;
+  font-size: 0.86rem;
+  color: var(--accent);
+  min-width: 4.5em;
+  font-variant-numeric: tabular-nums;
+}
+.news-list .date.upcoming {
+  color: var(--fg-faint);
+}
+.news-list .badge {
+  display: inline-block;
+  margin-left: 0.4em;
+  padding: 0.05em 0.45em;
+  font-family: var(--font-text);
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.04em;
+  text-transform: uppercase;
+  color: var(--fg-muted);
+  background: var(--bg-soft-2);
+  border-radius: 3px;
+  vertical-align: middle;
+}
+
+/* ============================================================
+   RESPONSIVE
+   ============================================================ */
+@media (max-width: 720px) {
+  html { font-size: 16px; }
+  header.hero { padding: 2.6rem 1rem 2rem; }
+  header.hero h1 { font-size: 1.55rem; }
+  header.hero .subtitle { font-size: 0.98rem; }
+  main { padding: 1.4rem 1rem 2.2rem; }
+  main section { margin-top: 2.4rem; }
+  main h2 { font-size: 1.32rem; gap: 0.5rem; }
+  main h3 { font-size: 1.05rem; }
+  main p { font-size: 1rem; }
+  main ol > li { padding-left: 2rem; }
+  figure .frame { padding: 4px; }
+}
+
+/* ============================================================
+   PRINT STYLESHEET  (for reviewers / readers who print the page)
+   ============================================================ */
+@media print {
+  /* hide chrome that doesn't make sense on paper */
+  .nav,
+  .toc-side,
+  .back-top,
+  .copy-btn,
+  .publication-links,
+  header.hero::before {
+    display: none !important;
+  }
+  /* simplify layout */
+  body {
+    color: #000;
+    background: #fff;
+    font-size: 11pt;
+    line-height: 1.5;
+  }
+  .page-layout {
+    display: block !important;
+    grid-template-columns: none !important;
+    max-width: 100% !important;
+    padding: 0 !important;
+  }
+  main {
+    padding: 0 !important;
+    max-width: 100% !important;
+  }
+  header.hero {
+    padding: 1rem 0 0.7rem !important;
+    border-bottom: 1px solid #999;
+    page-break-after: avoid;
+  }
+  header.hero h1 { font-size: 18pt; }
+  header.hero .subtitle { font-size: 11pt; }
+  /* avoid bad page breaks */
+  h2, h3, figure { page-break-inside: avoid; page-break-after: avoid; }
+  figure img { box-shadow: none !important; }
+  figure .frame { box-shadow: none !important; padding: 0 !important; border: 1px solid #999 !important; }
+  blockquote.pullquote { background: none !important; }
+  /* show URL after links so printed page is self-contained */
+  main a[href^="http"]::after,
+  main a[href^="mailto:"]::after {
+    content: " (" attr(href) ")";
+    font-size: 0.8em;
+    font-family: var(--font-mono);
+    color: #555;
+    word-break: break-all;
+  }
+  /* keep BibTeX readable */
+  pre.bibtex {
+    background: #f3f3f3 !important;
+    border: 1px solid #999 !important;
+    page-break-inside: avoid;
+  }
+  /* table on print */
+  table.comparison thead th { background: #eee !important; color: #000 !important; }
+  table.comparison tbody tr.ours td { background: #f5f5f5 !important; }
+  /* hide the copy icon if the FA stylesheet isn't loaded for print */
+  .copy-btn { display: none !important; }
+}

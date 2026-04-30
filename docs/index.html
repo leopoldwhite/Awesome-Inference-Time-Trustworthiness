@@ -1,0 +1,641 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Inference-Time Control for Trustworthy Large Language Models: A Survey</title>
+  <meta name="description"
+        content="A unified survey of inference-time methods for the trustworthiness of large language models across safety, privacy, fairness, and factuality.">
+  <meta name="theme-color" content="#1859c2">
+
+  <meta property="og:title"
+        content="Inference-Time Control for Trustworthy Large Language Models: A Survey">
+  <meta property="og:description"
+        content="A unified survey of inference-time methods for trustworthy LLMs across safety, privacy, fairness, and factuality.">
+  <meta property="og:image" content="assets/taxonomy.jpeg">
+
+  <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=JetBrains+Mono:wght@400&display=swap">
+  <link rel="stylesheet"
+        href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css">
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/academicons@1.9.4/css/academicons.min.css">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<header class="hero" id="top">
+  <h1>Inference-Time Control for Trustworthy Large Language Models: A Survey</h1>
+  <div class="subtitle">Pipeline-grounded methods across safety, privacy, fairness, and factuality.</div>
+
+  <div class="authors">
+    Anonymous Authors
+    <!--
+      Real author block. Uncomment after acceptance / de-anonymization.
+
+      Yuyang Bai<sup>1,*,&dagger;</sup>, Zheyuan Liu<sup>2,*,&dagger;</sup>,
+      Han Yan<sup>2,&dagger;</sup>, Zhangchen Xu<sup>3,&dagger;</sup>,
+      Yixin Wan<sup>4,&dagger;</sup>, Canyu Chen<sup>5,&dagger;</sup>,
+      Zehong Wang<sup>2,&dagger;</sup>, Xiangchi Yuan<sup>6,&dagger;</sup>,
+      Yue Huang<sup>2,&dagger;</sup>, Guangyao Dou<sup>7,&dagger;</sup>,
+      Yuji Zhang<sup>8</sup>, Zhuofeng Li<sup>1</sup>, Hangxiao Zhu<sup>1</sup>,
+      Manling Li<sup>5</sup>, Xiangliang Zhang<sup>2</sup>,
+      Mohit Bansal<sup>9</sup>, Kai-Wei Chang<sup>4</sup>,
+      Yu Zhang<sup>1,&Dagger;</sup>, Meng Jiang<sup>2,&Dagger;</sup>
+    -->
+  </div>
+
+  <div class="affiliations">
+    Affiliations and contact emails appear here once the paper exits anonymous review.
+    <!--
+      <sup>1</sup>Texas A&amp;M &nbsp; <sup>2</sup>Notre Dame &nbsp; <sup>3</sup>UW
+      &nbsp; <sup>4</sup>UCLA &nbsp; <sup>5</sup>Northwestern &nbsp;
+      <sup>6</sup>Georgia Tech &nbsp; <sup>7</sup>JHU &nbsp; <sup>8</sup>UIUC
+      &nbsp; <sup>9</sup>UNC<br>
+      <span class="contrib-key">*Project Leader &nbsp; &dagger;Major Contributor &nbsp; &Dagger;Corresponding Author</span>
+    -->
+  </div>
+
+  <div class="publication-links">
+    <span class="link-block">
+      <a class="btn pill disabled" title="Available after acceptance">
+        <span class="icon"><i class="ai ai-arxiv"></i></span>
+        <span>arXiv (after acceptance)</span>
+      </a>
+    </span>
+    <span class="link-block">
+      <a class="btn pill disabled" title="Available after acceptance">
+        <span class="icon"><i class="fas fa-file-pdf"></i></span>
+        <span>Paper</span>
+      </a>
+    </span>
+    <span class="link-block">
+      <a class="btn pill"
+         href="https://github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness"
+         target="_blank" rel="noopener">
+        <span class="icon"><i class="fab fa-github"></i></span>
+        <span>Code</span>
+      </a>
+    </span>
+    <span class="link-block">
+      <a class="btn pill" href="#cite">
+        <span class="icon"><i class="fas fa-quote-left"></i></span>
+        <span>BibTeX</span>
+      </a>
+    </span>
+  </div>
+</header>
+
+<div class="page-layout">
+<main>
+
+  <!-- ============================================================
+       INTRODUCTION
+       ============================================================ -->
+  <section id="introduction">
+    <h2>Introduction <a class="anchor-link" href="#introduction" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      Once a large language model is released, updating its behavior is often
+      slow, costly, or impossible. Training-time alignment encodes safety,
+      privacy, fairness, and factuality objectives into the parameters
+      themselves, but deployment introduces context-specific risks that
+      cannot all be anticipated in advance: changing policies, user-specific
+      constraints, retrieval contamination, adversarial prompting, and
+      jurisdiction-dependent requirements.
+      <em>Inference-time</em> methods address this gap. They regulate model
+      behavior at runtime, after training has concluded, by acting on the
+      generation pipeline rather than on the parameters.
+    </p>
+
+    <p>
+      This survey reviews the field as a single coherent control plane.
+      Drawing on <strong>200+ papers published between 2020 and 2026</strong>,
+      we organize seven categories of inference-time methods into three
+      tiers&mdash;<strong>External Controls</strong> (Context Engineering,
+      Guardrails, Decoding Strategies), <strong>Internal Manipulations</strong>
+      (Representation Engineering, Unlearning, Pruning), and
+      <strong>System-Level Orchestration</strong> (Multi-Agent
+      Systems)&mdash;and analyze each across four trustworthiness dimensions:
+      safety, privacy, fairness, and factuality. Figure&nbsp;1 shows the
+      taxonomy and the points at which each tier attaches to the generation
+      pipeline.
+    </p>
+
+    <figure>
+      <div class="frame"><img src="assets/taxonomy.jpeg"
+           alt="Three-tier taxonomy and pipeline attachment points for inference-time control of trustworthy LLMs"></div>
+      <figcaption>
+        <span class="fig-label">Figure&nbsp;1.</span> Taxonomy (top) and attachment points in an
+        inference-time pipeline (bottom). The three tier colors&mdash;
+        <b>cyan</b> (Tier&nbsp;1, black-box), <b>lavender</b>
+        (Tier&nbsp;2, white-box), and <b>green</b> (Tier&nbsp;3,
+        system-level)&mdash;encode the level of model access each tier
+        assumes.
+      </figcaption>
+    </figure>
+
+    <p>
+      The companion repository at
+      <a href="https://github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness"
+         target="_blank" rel="noopener">github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness</a>
+      indexes more than 230 papers organized by these seven categories,
+      with arXiv links and code references where available. The remainder
+      of this page summarizes each tier with the corresponding figures from
+      the paper, the meta-axis evaluation framework we adopt, a comparison
+      with prior surveys, and the open challenges we identify.
+    </p>
+  </section>
+
+
+  <!-- ============================================================
+       TIER 1
+       ============================================================ -->
+  <section id="tier1">
+    <h2 class="tier t1">Tier 1: External Controls <a class="anchor-link" href="#tier1" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      External controls treat the model as a black box. They shape behavior
+      by modifying inputs, the decoding process, or outputs, without
+      accessing or modifying internal weights or activations. These methods
+      are the most modular and widely applicable: they require no white-box
+      access and can be deployed on proprietary, API-only models. In the
+      pipeline they attach to the context-assembly, input/output policy
+      check, and decoding stages.
+    </p>
+
+    <blockquote class="pullquote t1">
+      The most modular and widely applicable layer&mdash;but also the
+      easiest to bypass once an adversary adapts.
+    </blockquote>
+
+    <h3>Context Engineering</h3>
+    <p>
+      Strategic prompt design, retrieval, and context shaping. Methods in
+      this category guide outputs through rules, instructions, exemplars,
+      retrieval-augmented context, or memory windows&mdash;without changing
+      model parameters. The 32 papers we cover include prompt-based safety
+      (e.g., system-prompt jailbreak defenses), retrieval-augmented factuality
+      (Self-RAG, Chain-of-Verification), in-context fairness mitigation,
+      and privacy-preserving inference (InferDPT).
+    </p>
+
+    <h3>Guardrails</h3>
+    <p>
+      External modules that inspect inputs or outputs against safety or
+      policy constraints, blocking, redacting, or regenerating content
+      when violations occur. Figure&nbsp;2 organizes the design space into
+      four mechanism types: <em>rule-based</em> (NeMo Guardrails, Llama
+      Firewall), <em>model-based</em> classifiers (Perspective, ToxiChat),
+      <em>LLM-based</em> judges&mdash;split between discriminative
+      (LlamaGuard, ShieldGemma) and generative reasoning judges
+      (GuardReasoner, R&sup2;-Guard)&mdash;and <em>hybrid</em>
+      defense-in-depth pipelines that compose the previous three.
+    </p>
+
+    <figure>
+      <div class="frame"><img src="assets/fig-guardrails.png" loading="lazy"
+           alt="Typology of guardrail mechanisms: rule-based, model-based, LLM-based (discriminative + generative), and hybrid"></div>
+      <figcaption>
+        <span class="fig-label">Figure&nbsp;2.</span> A typology of guardrail mechanisms. Rule-based
+        and model-based filters are fast but brittle; LLM-based judges are
+        flexible but introduce latency; hybrid pipelines combine them in a
+        defense-in-depth arrangement.
+      </figcaption>
+    </figure>
+
+    <h3>Decoding Strategies</h3>
+    <p>
+      Manipulation of token-level distributions during generation to promote
+      desired attributes or suppress undesired ones. Figure&nbsp;3 plots the
+      design axes&mdash;<em>constructive decoding</em> (prompt- or model-pair
+      contrast), <em>dynamic / context-aware decoding</em>, and
+      <em>reference-based decoding</em>&mdash;against four trustworthiness
+      targets, with the central pipeline showing how logits are reweighted,
+      combined, and routed to safe or contrastive experts.
+    </p>
+
+    <figure>
+      <div class="frame"><img src="assets/fig-decoding.png" loading="lazy"
+           alt="Decoding axes for trustworthy generation: constructive, dynamic, reference-based, and safety-signal decoding"></div>
+      <figcaption>
+        <span class="fig-label">Figure&nbsp;3.</span> Decoding-time control axes and the central
+        logit-manipulation pipeline.
+      </figcaption>
+    </figure>
+  </section>
+
+
+  <!-- ============================================================
+       TIER 2
+       ============================================================ -->
+  <section id="tier2">
+    <h2 class="tier t2">Tier 2: Internal Manipulations <a class="anchor-link" href="#tier2" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      Internal manipulations require white-box access. They intervene
+      directly in the model's computation&mdash;modifying activations during
+      a forward pass, suppressing targeted behavior or knowledge, or
+      removing architectural components. Compared with external controls
+      they offer finer-grained, more persistent behavioral changes, at the
+      cost of needing access to representations or weights.
+    </p>
+
+    <blockquote class="pullquote t2">
+      Finer behavioral control at the cost of weights and activations
+      &mdash;and a verification problem we cannot yet solve.
+    </blockquote>
+
+    <p>
+      Three categories share this tier (Figure&nbsp;4):
+      <strong>Representation Engineering</strong> shifts hidden states
+      along pre-computed concept vectors, treating activations as
+      controllable objects;
+      <strong>Inference-Time Unlearning</strong> suppresses target
+      knowledge or behavior at generation time through attention masking,
+      activation gating, or in-context refusal triggers;
+      <strong>Structural Pruning</strong> removes weights, neurons, or
+      attention heads associated with unsafe or biased behavior, exposing
+      the alignment fragility of the underlying network.
+    </p>
+
+    <figure>
+      <div class="frame"><img src="assets/fig-internal.png" loading="lazy"
+           alt="Representation engineering, inference-time unlearning, and structural pruning"></div>
+      <figcaption>
+        <span class="fig-label">Figure&nbsp;4.</span> Three internal-manipulation paradigms.
+        Representation Engineering shifts activations along concept
+        directions; Inference-Time Unlearning suppresses target knowledge;
+        Structural Pruning removes the components that support unwanted
+        behavior.
+      </figcaption>
+    </figure>
+  </section>
+
+
+  <!-- ============================================================
+       TIER 3
+       ============================================================ -->
+  <section id="tier3">
+    <h2 class="tier t3">Tier 3: System-Level Orchestration <a class="anchor-link" href="#tier3" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      At the system level, trustworthiness becomes an emergent property of
+      structured interaction among multiple agents rather than a property of
+      any single model. Multi-agent systems coordinate LLMs through debate,
+      cross-verification, role specialization, and iterative self-correction.
+      The tool-use / agents loop spans context assembly, generation, and
+      output checking, creating feedback cycles that enable collective
+      reliability.
+    </p>
+
+    <blockquote class="pullquote t3">
+      Trustworthiness as an emergent property of structured interaction
+      &mdash;not a property of any single model.
+    </blockquote>
+
+    <p>
+      Figure&nbsp;5 cuts the design space by trustworthiness dimension:
+      <em>safety</em> via role-diverse defenses and adversarial red-teaming
+      (AutoDefense, PeerGuard, RedDebate, MASTER); <em>factuality and
+      faithfulness</em> via structured debate with cross-verification and
+      calibrated uncertainty (CFMAD, CausalGPT, COOPERATE/COMPETE);
+      <em>fairness</em> via centralized debiasing with self-reflection
+      (MSR, Multi-LLM); and <em>privacy</em> via specialized agents
+      (Extractor, Executor, Checker; MASLEAK).
+    </p>
+
+    <figure>
+      <div class="frame"><img src="assets/fig-mas.png" loading="lazy"
+           alt="Multi-agent system architectures organized by safety, factuality, fairness, and privacy"></div>
+      <figcaption>
+        <span class="fig-label">Figure&nbsp;5.</span> Multi-agent architectures for LLM
+        trustworthiness across the four dimensions.
+      </figcaption>
+    </figure>
+  </section>
+
+
+  <!-- ============================================================
+       EVALUATION
+       ============================================================ -->
+  <section id="evaluation">
+    <h2>Evaluation <a class="anchor-link" href="#evaluation" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      Inference-time methods differ greatly in where and how they intervene
+      &mdash;in prompts, in logits, in activations, in external filters, or
+      in the surrounding workflow. As a result evaluation cannot be unified
+      by one benchmark or one metric family. We adopt a meta-axis evaluation
+      view (Figure&nbsp;6): rows are the four trustworthiness dimensions
+      (Safety, Privacy, Fairness, Factuality), columns are five
+      complementary evaluation axes (Effectiveness / Behavioral Accuracy,
+      Locality / Utility Preservation, Generality / Robustness / Adaptivity,
+      Interpretability / Transparency, Efficiency / Latency / Cost), and
+      each cell lists representative metrics specific to the
+      dimension&ndash;axis intersection.
+    </p>
+
+    <figure>
+      <div class="frame"><img src="assets/fig-evaluation.png" loading="lazy"
+           alt="Meta-axis evaluation framework crossing four trustworthiness dimensions with five evaluation axes"></div>
+      <figcaption>
+        <span class="fig-label">Figure&nbsp;6.</span> A meta-axis evaluation framework for
+        inference-time trustworthiness methods.
+      </figcaption>
+    </figure>
+  </section>
+
+
+  <!-- ============================================================
+       COMPARISON TABLE
+       ============================================================ -->
+  <section id="related">
+    <h2>Comparison with Existing Surveys <a class="anchor-link" href="#related" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      Prior surveys either organize the trustworthy-LLM literature by harm
+      type, by a single solution family, or by efficiency considerations.
+      To our knowledge none unifies inference-time methods as a control
+      plane across all four dimensions and all seven categories considered
+      here. The matrix below mirrors Table&nbsp;1 of the paper. Survey
+      names are anonymized while under review.
+    </p>
+
+    <div class="table-wrap">
+      <table class="comparison">
+        <thead>
+          <tr>
+            <th rowspan="2">Survey</th>
+            <th colspan="4" class="group">Trustworthiness Dimensions</th>
+            <th colspan="7" class="group">Method Categories</th>
+          </tr>
+          <tr>
+            <th>Safety</th><th>Privacy</th><th>Fairness</th><th>Factuality</th>
+            <th>Context</th><th>Guard.</th><th>Decoding</th>
+            <th>Repr.</th><th>Unlearn.</th><th>Pruning</th><th>MAS</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr class="ours">
+            <td class="row-name">Ours (this survey)</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Inference Efficiency Survey</td>
+            <td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Post-Training Capability Survey #1</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Post-Training Capability Survey #2</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Holistic Trustworthy LLM Survey #1</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Holistic Trustworthy LLM Survey #2</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Trustworthy Text-to-Image Survey</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Trustworthy LLM Agents Survey</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="yes">&#10003;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Unlearning Survey #1</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="no">&#10005;</span></td>
+          </tr>
+          <tr>
+            <td class="row-name">Unlearning Survey #2</td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="no">&#10005;</span></td>
+            <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
+            <td><span class="no">&#10005;</span></td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       OPEN CHALLENGES
+       ============================================================ -->
+  <section id="challenges">
+    <h2>Open Challenges <a class="anchor-link" href="#challenges" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      Inference-time methods make trustworthiness modular and updatable,
+      but each tier still leaves open problems. The paper synthesizes these
+      into a research agenda; we group them into four cross-cutting themes.
+    </p>
+
+    <blockquote class="pullquote">
+      The frontier is not the next defense&mdash;it is making any defense
+      verifiable, composable, and stable under adversaries we have not yet seen.
+    </blockquote>
+
+    <ol>
+      <li>
+        <strong>Brittleness under adaptive adversaries.</strong>
+        Static guardrails and decoding constraints fail against adaptive
+        jailbreaks; representation steering and unlearning can be reversed
+        by adversarial probing. Robust deployment will require
+        periodically re-evaluated, adaptive defenses rather than fixed
+        thresholds.
+      </li>
+      <li>
+        <strong>The control&ndash;utility tradeoff.</strong>
+        Stricter inference-time controls reduce helpfulness, fluency, or
+        accuracy. Standardized benchmarks that explicitly trace the
+        trust&ndash;utility Pareto frontier&mdash;rather than reporting a
+        single operating point&mdash;are still missing.
+      </li>
+      <li>
+        <strong>Verification of removal.</strong>
+        Unlearning, pruning, and editing can suppress information without
+        truly erasing it, leaving models vulnerable to recovery under
+        adversarial probing. The lack of formal removal guarantees blocks
+        deployment in privacy-critical and regulatory settings.
+      </li>
+      <li>
+        <strong>Composition and emergent risk.</strong>
+        How interventions interact when layered together is poorly
+        understood. Multi-agent orchestration introduces novel failure
+        modes such as group-think, cascading hallucinations, and
+        amplified jailbreaks via the very debate channels intended to
+        improve reliability.
+      </li>
+    </ol>
+  </section>
+
+
+  <!-- ============================================================
+       NEWS
+       ============================================================ -->
+  <section id="news">
+    <h2>&#128276; News <a class="anchor-link" href="#news" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+    <ul class="news-list">
+      <!-- Replace each TBD with the actual YYYY-MM date when the milestone happens. -->
+      <li>
+        <span class="date upcoming">TBD</span>
+        <span>[Placeholder for first news item]</span>
+      </li>
+      <li>
+        <span class="date upcoming">TBD</span>
+        <span>[Placeholder for second news item]</span>
+      </li>
+      <li>
+        <span class="date upcoming">TBD</span>
+        <span>[Placeholder for third news item]</span>
+      </li>
+      <li>
+        <span class="date upcoming">TBD</span>
+        <span>[Placeholder for fourth news item]</span>
+      </li>
+    </ul>
+  </section>
+
+
+  <!-- ============================================================
+       CITATION
+       ============================================================ -->
+  <section id="cite">
+    <h2>&#128218; Cite <a class="anchor-link" href="#cite" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      BibTeX entry for the current preprint version. The full author list
+      and arXiv ID will populate after acceptance and de-anonymization.
+    </p>
+
+    <div class="bibtex-wrap">
+      <button class="copy-btn" data-target="bibtex-block" type="button" aria-label="Copy BibTeX">
+        <i class="fas fa-copy"></i>
+        <span>Copy</span>
+      </button>
+      <pre class="bibtex" id="bibtex-block">@article{anonymous2026inference,
+  title   = {Inference-Time Control for Trustworthy Large Language Models: A Survey},
+  author  = {Anonymous Authors},
+  journal = {arXiv preprint arXiv:YOUR_ARXIV_ID},
+  year    = {2026}
+}</pre>
+    </div>
+  </section>
+
+
+  <!-- ============================================================
+       REPOSITORY
+       ============================================================ -->
+  <section id="repo">
+    <h2>&#128193; Repository <a class="anchor-link" href="#repo" aria-hidden="true">#</a></h2>
+    <hr class="rule">
+
+    <p>
+      The companion repository hosts the full paper list (over 230 entries
+      across the seven method categories), with arXiv links and code
+      references where available. We welcome issues and pull requests for
+      omissions.
+    </p>
+
+    <p style="text-align: center; margin: 1.5rem 0 0.5rem;">
+      <a class="btn primary"
+         href="https://github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness"
+         target="_blank" rel="noopener">Open the GitHub repository &rarr;</a>
+    </p>
+  </section>
+
+</main>
+
+<aside class="toc-side" aria-label="Table of contents">
+  <div class="toc-title">On this page</div>
+  <ol>
+    <li><a href="#introduction">Introduction</a></li>
+    <li><a href="#tier1">Tier 1: External Controls</a></li>
+    <li><a href="#tier2">Tier 2: Internal Manipulations</a></li>
+    <li><a href="#tier3">Tier 3: System-Level Orchestration</a></li>
+    <li><a href="#evaluation">Evaluation</a></li>
+    <li><a href="#related">Related Surveys</a></li>
+    <li><a href="#challenges">Open Challenges</a></li>
+    <li><a href="#news">News</a></li>
+    <li><a href="#cite">Cite</a></li>
+    <li><a href="#repo">Repository</a></li>
+  </ol>
+</aside>
+</div>
+
+<footer>
+  <p>Companion site for the Inference-Time Trustworthy LLMs survey.</p>
+  <p>
+    Have a paper we missed? Open an
+    <a href="https://github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness/issues"
+       target="_blank" rel="noopener">issue</a>
+    or a
+    <a href="https://github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness/pulls"
+       target="_blank" rel="noopener">pull&nbsp;request</a>.
+    Content released under
+    <a href="https://creativecommons.org/licenses/by/4.0/"
+       target="_blank" rel="noopener">CC&nbsp;BY&nbsp;4.0</a>;
+    the paper list is curated by the survey authors.
+  </p>
+</footer>
+
+
+<a class="back-top" href="#top" title="Back to top" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2"
+       stroke-linecap="round" stroke-linejoin="round">
+    <polyline points="6 14 12 8 18 14"/>
+  </svg>
+</a>
+
+<script src="script.js"></script>
+
+</body>
+</html>

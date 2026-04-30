@@ -4,7 +4,7 @@
 
 [![Awesome](https://img.shields.io/badge/Awesome-0066CC?style=for-the-badge&logo=awesome-lists&logoColor=white)](https://github.com/sindresorhus/awesome)
 [![Survey](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/YOUR_ARXIV_ID)
-[![GitHub](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/YOUR_GITHUB_REPO)
+[![GitHub](https://img.shields.io/badge/GitHub-000000?style=for-the-badge&logo=github&logoColor=white)](https://github.com/leopoldwhite/Awesome-Inference-Time-Trustworthiness)
 
 </div>
 
@@ -12,18 +12,18 @@
 
 ## 🎉 News
 
-- **[2025-04]** 🔥 We release our survey on Inference-Time Control for Trustworthy LLMs!
+- **[2026-04]** 🔥 We release our survey on Inference-Time Control for Trustworthy LLMs!
 
 ## 🎈 Citation
 
 If you find this survey helpful, please cite our work:
 
 ```bibtex
-@article{bai2025inference,
-  title={Inference-Time Control for Trustworthy Large Language Models: A Survey},
-  author={Bai, Yuyang and Liu, Zheyuan and Yan, Han and Xu, Zhangchen and Wan, Yixin and Chen, Canyu and Wang, Zehong and Yuan, Xiangchi and Huang, Yue and Dou, Guangyao and Zhang, Yuji and Li, Zhuofeng and Zhu, Hangxiao and Zhang, Xiangliang and Zhang, Yu and Jiang, Meng},
-  journal={arXiv preprint arXiv:YOUR_ARXIV_ID},
-  year={2025}
+@article{anonymous2026inference,
+  title   = {Inference-Time Control for Trustworthy Large Language Models: A Survey},
+  author  = {Anonymous Authors},
+  journal = {arXiv preprint arXiv:YOUR_ARXIV_ID},
+  year    = {2026}
 }
 ```
 
@@ -41,7 +41,6 @@ If you find this survey helpful, please cite our work:
       - [Decoding Strategies](#decoding-strategies)
     - [Tier 2: Internal Manipulations](#tier-2-internal-manipulations)
       - [Representation Engineering](#representation-engineering)
-      - [Knowledge Editing](#knowledge-editing)
       - [Unlearning](#unlearning)
       - [Pruning](#pruning)
     - [Tier 3: System-Level Orchestration](#tier-3-system-level-orchestration)
@@ -59,7 +58,6 @@ Our survey provides a comprehensive examination of **Inference-Time Control** me
 
 2. **Tier 2 — Internal Manipulations**: Require white-box access. Intervene directly in the model's internal computation.
    - *Representation Engineering*: Direct modification of internal activations via steering vectors.
-   - *Knowledge Editing*: Precise and localized parameter updates to correct or inject factual knowledge.
    - *Unlearning*: Targeted removal of information, behaviors, or biases from a pre-trained model.
    - *Pruning*: Post-training removal of weights, neurons, or attention heads for trust-related effects.
 
@@ -67,7 +65,7 @@ Our survey provides a comprehensive examination of **Inference-Time Control** me
    - *Multi-Agent Systems*: Coordinated agent interactions such as debate or cross-verification.
 
 <p align="center">
-  <img src="Inference_Time_Trustworthy_Survey/figures/taxonomy_pipeline.pdf" alt="Overview of Inference-Time Control for Trustworthy LLMs" style="width: 100%;">
+  <img src="assets/taxonomy.jpeg" alt="Taxonomy and pipeline attachment points for inference-time control of trustworthy LLMs" width="100%">
 </p>
 
 ## 📄 Paper List
@@ -248,48 +246,6 @@ Our survey provides a comprehensive examination of **Inference-Time Control** me
 
 ---
 
-#### Knowledge Editing
-
-| Year | Title | Paper | Github |
-|:----:|:------|:-----:|:-----:|
-| 2024.03 | Locating and Mitigating Gender Bias in Large Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2403.14409) | [![GitHub Stars](https://img.shields.io/github/stars/sebastianGehrmann/CausalMediationAnalysis?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/sebastianGehrmann/CausalMediationAnalysis) |
-| 2024.07 | Can Editing LLMs Inject Harm? | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2407.20224) | [![GitHub Stars](https://img.shields.io/github/stars/llm-editing/editing-attack?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/llm-editing/editing-attack) |
-| 2023.07 | Evaluating the Ripple Effects of Knowledge Editing in Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2307.12976) | [![GitHub Stars](https://img.shields.io/github/stars/edenbiran/rippleedits?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/edenbiran/rippleedits) |
-| 2024.06 | Retrieval Meets Reasoning: Dynamic In-Context Editing for Long-Text Understanding | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2406.12331) | - |
-| 2024.02 | Model Editing by Pure Fine-Tuning | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2402.11078) | [![GitHub Stars](https://img.shields.io/github/stars/au-revoir/model-editing-ft?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/au-revoir/model-editing-ft) |
-| 2020.12 | Transformer Feed-Forward Layers Are Key-Value Memories | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2012.14913) | [![GitHub Stars](https://img.shields.io/github/stars/mega002/ff-layers?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/mega002/ff-layers) |
-| 2024.12 | Concept-ROT: Poisoning Concepts in Large Language Models with Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2412.13341) | [![GitHub Stars](https://img.shields.io/github/stars/keltin13/concept-rot?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/keltin13/concept-rot) |
-| 2024.01 | Model Editing Harms General Abilities of Large Language Models: Regularization to the Rescue | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2401.04700) | [![GitHub Stars](https://img.shields.io/github/stars/jasonforjoy/model-editing-hurt?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/jasonforjoy/model-editing-hurt) |
-| 2024.10 | Backdoor in Seconds: Unlocking Vulnerabilities in Large Pre-trained Models via Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2410.18267) | [![GitHub Stars](https://img.shields.io/github/stars/donglgcn/Editing?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/donglgcn/Editing) |
-| 2022.11 | Aging with Grace: Lifelong Model Editing with Discrete Key-Value Adaptors | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2211.11031) | [![GitHub Stars](https://img.shields.io/github/stars/thartvigsen/grace?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/thartvigsen/grace) |
-| 2023.05 | Detecting Edit Failures in Large Language Models: An Improved Specificity Benchmark | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2305.17553) | [![GitHub Stars](https://img.shields.io/github/stars/apartresearch/specificityplus?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/apartresearch/specificityplus) |
-| 2024.06 | Editing the Mind of Giants: An In-Depth Exploration of Pitfalls of Knowledge Editing in Large Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2406.01436) | [![GitHub Stars](https://img.shields.io/github/stars/MiuLab/EditLLM-Survey?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/MiuLab/EditLLM-Survey) |
-| 2024.01 | Propagation and Pitfalls: Reasoning-based Assessment of Knowledge Editing through Counterfactual Tasks | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2401.17585) | - |
-| 2024.10 | Can Knowledge Editing Really Correct Hallucinations? | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2410.16251) | [![GitHub Stars](https://img.shields.io/github/stars/llm-editing/HalluEditBench?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/llm-editing/HalluEditBench) |
-| 2023.10 | Unveiling the Pitfalls of Knowledge Editing for Large Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2310.02129) | [![GitHub Stars](https://img.shields.io/github/stars/zjunlp/PitfallsKnowledgeEditing?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/zjunlp/PitfallsKnowledgeEditing) |
-| 2024.03 | BadEdit: Backdooring Large Language Models by Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2403.13355) | [![GitHub Stars](https://img.shields.io/github/stars/Lyz1213/BadEdit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/Lyz1213/BadEdit) |
-| 2024.05 | Perturbation-Restrained Sequential Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2405.16821) | [![GitHub Stars](https://img.shields.io/github/stars/mjy1111/PRUNE?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/mjy1111/PRUNE) |
-| 2022.02 | Locating and Editing Factual Associations in GPT | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2202.05262) | [![GitHub Stars](https://img.shields.io/github/stars/kmeng01/rome?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/kmeng01/rome) |
-| 2022.10 | Mass-Editing Memory in a Transformer | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2210.07229) | [![GitHub Stars](https://img.shields.io/github/stars/kmeng01/memit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/kmeng01/memit) |
-| 2024.10 | Mitigating Gender Bias in Code Large Language Models via Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2410.07820) | - |
-| 2024.08 | MEGen: Generative Backdoor in Large Language Models via Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2408.10722) | [![GitHub Stars](https://img.shields.io/github/stars/MonoQ-hub/MEGen?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/MonoQ-hub/MEGen) |
-| 2024.03 | Retrieval-Enhanced Knowledge Editing for Multi-hop Question Answering in Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2403.19631) | [![GitHub Stars](https://img.shields.io/github/stars/sycny/RAE?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/sycny/RAE) |
-| 2024.05 | Model Editing as a Robust and Denoised Variant of DPO: A Case Study on Toxicity | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2405.13967) | [![GitHub Stars](https://img.shields.io/github/stars/Uppaal/detox-edit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/Uppaal/detox-edit) |
-| 2024.03 | Detoxifying Large Language Models via Knowledge Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2403.14472) | [![GitHub Stars](https://img.shields.io/github/stars/zjunlp/EasyEdit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/zjunlp/EasyEdit) |
-| 2024.07 | EvilEdit: Backdooring Text-to-Image Diffusion Models in One Second | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://openreview.net/forum?id=ibEaSS6bQn) | [![GitHub Stars](https://img.shields.io/github/stars/haowang02/EvilEdit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/haowang02/EvilEdit) |
-| 2023.10 | Knowledge Editing for Large Language Models: A Survey | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2310.16218) | - |
-| 2024.06 | RoseLoRA: Row and Column-wise Sparse Low-rank Adaptation of Pre-trained Language Model for Knowledge Editing and Fine-tuning | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2406.10777) | [![GitHub Stars](https://img.shields.io/github/stars/lliutianc/roselora?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/lliutianc/roselora) |
-| 2024.05 | WISE: Rethinking the Knowledge Memory for Lifelong Model Editing of Large Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2405.14768) | [![GitHub Stars](https://img.shields.io/github/stars/zjunlp/EasyEdit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/zjunlp/EasyEdit) |
-| 2023.10 | DEPN: Detecting and Editing Privacy Neurons in Pretrained Language Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2310.20138) | [![GitHub Stars](https://img.shields.io/github/stars/flamewei123/DEPN?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/flamewei123/DEPN) |
-| 2024.02 | Potential and Challenges of Model Editing for Social Debiasing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2402.13462) | - |
-| 2024.02 | The Butterfly Effect of Model Editing: Few Edits Can Trigger Large Language Models Collapse | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2402.09656) | [![GitHub Stars](https://img.shields.io/github/stars/zjunlp/EasyEdit?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/zjunlp/EasyEdit) |
-| 2024.06 | The Fall of Rome: Understanding the Collapse of LLMs in Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2406.11263) | [![GitHub Stars](https://img.shields.io/github/stars/WanliYoung/Collapse-in-Model-Editing?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/WanliYoung/Collapse-in-Model-Editing) |
-| 2025.02 | Position: Editing Large Language Models Poses Serious Safety Risks | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2502.02958) | - |
-| 2023.05 | Can We Edit Factual Knowledge by In-Context Learning? | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2305.12740) | [![GitHub Stars](https://img.shields.io/github/stars/Zce1112zslx/IKE?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/Zce1112zslx/IKE) |
-| 2020.12 | Modifying Memories in Transformer Models | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2012.00363) | - |
-
----
-
 #### Unlearning
 
 | Year | Title | Paper | Github |
@@ -391,7 +347,6 @@ Our survey provides a comprehensive examination of **Inference-Time Control** me
 | 2024.01 | InferAligner: Inference-Time Alignment for Harmlessness through Cross-Model Guidance | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2401.11206) | [![GitHub Stars](https://img.shields.io/github/stars/jihuai-wpy/inferaligner?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/jihuai-wpy/inferaligner) |
 | 2025.01 | GuardReasoner: Towards Reasoning-based LLM Safeguards | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2501.18492) | [![GitHub Stars](https://img.shields.io/github/stars/yueliu1999/GuardReasoner?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/yueliu1999/GuardReasoner) |
 | 2024.12 | Granite Guardian | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2412.07724) | [![GitHub Stars](https://img.shields.io/github/stars/ibm-granite/granite-guardian?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/ibm-granite/granite-guardian) |
-| 2025.01 | GuardReasoner: Towards Reasoning-based LLM Safeguards | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2501.18492) | [![GitHub Stars](https://img.shields.io/github/stars/yueliu1999/GuardReasoner?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/yueliu1999/GuardReasoner) |
 | 2024.02 | Assessing the Brittleness of Safety Alignment via Pruning and Low-Rank Modifications | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2402.05162) | [![GitHub Stars](https://img.shields.io/github/stars/boyiwei/alignment-attribution-code?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/boyiwei/alignment-attribution-code) |
 | 2025.03 | Attention Pruning: Automated Fairness Repair of Language Models via Surrogate Simulated Annealing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2503.15815) | - |
 | 2025.05 | Guard: Generation-Time LLM Unlearning via Adaptive Restriction and Detection | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2505.13312) | - |
@@ -412,4 +367,4 @@ We thank all the researchers who contributed to this field. This survey is maint
 
 ## ✨ Star History
 
-[![Star History Chart](https://api.star-history.com/svg?repos=YOUR_GITHUB_REPO&type=Date)](https://star-history.com/#YOUR_GITHUB_REPO&Date)
+[![Star History Chart](https://api.star-history.com/svg?repos=leopoldwhite/Awesome-Inference-Time-Trustworthiness&type=Date)](https://star-history.com/#leopoldwhite/Awesome-Inference-Time-Trustworthiness&Date)
