@@ -3,15 +3,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Inference-Time Control for Trustworthy Large Language Models: A Survey</title>
+  <title>Inference-Time Control for Trustworthy Large Language Models</title>
   <meta name="description"
-        content="A unified survey of inference-time methods for the trustworthiness of large language models across safety, privacy, fairness, and factuality.">
+        content="A unified treatment of inference-time methods for the trustworthiness of large language models across safety, privacy, fairness, and factuality.">
   <meta name="theme-color" content="#1859c2">
 
   <meta property="og:title"
-        content="Inference-Time Control for Trustworthy Large Language Models: A Survey">
+        content="Inference-Time Control for Trustworthy Large Language Models">
   <meta property="og:description"
-        content="A unified survey of inference-time methods for trustworthy LLMs across safety, privacy, fairness, and factuality.">
+        content="A unified treatment of inference-time methods for trustworthy LLMs across safety, privacy, fairness, and factuality.">
   <meta property="og:image" content="assets/taxonomy.jpeg">
 
   <link rel="icon" type="image/svg+xml" href="assets/favicon.svg">
@@ -29,7 +29,7 @@
 <body>
 
 <header class="hero" id="top">
-  <h1>Inference-Time Control for Trustworthy Large Language Models: A Survey</h1>
+  <h1>Inference-Time Control for Trustworthy Large Language Models</h1>
 
   <div class="authors">
     Yuyang Bai<sup>1,*,&dagger;</sup>, Zheyuan Liu<sup>2,*,&dagger;</sup>,
@@ -37,9 +37,9 @@
     Yixin Wan<sup>4,&dagger;</sup>, Canyu Chen<sup>5,&dagger;</sup>,
     Zehong Wang<sup>2,&dagger;</sup>, Xiangchi Yuan<sup>6,&dagger;</sup>,
     Yue Huang<sup>2,&dagger;</sup>, Guangyao Dou<sup>7,&dagger;</sup>,
-    Yuji Zhang<sup>8</sup>, Zhuofeng Li<sup>1</sup>, Hangxiao Zhu<sup>1</sup>,
+    Yuji Zhang<sup>8</sup>, Hangxiao Zhu<sup>1</sup>, Zhuofeng Li<sup>1</sup>,
     Manling Li<sup>5</sup>, Xiangliang Zhang<sup>2</sup>,
-    Mohit Bansal<sup>9</sup>, Kai-Wei Chang<sup>4</sup>,
+    Mohit Bansal<sup>9</sup>, Sanmi Koyejo<sup>10</sup>, Kai-Wei Chang<sup>4</sup>,
     Yu Zhang<sup>1,&Dagger;</sup>, Meng Jiang<sup>2,&Dagger;</sup>
   </div>
 
@@ -52,7 +52,8 @@
     <sup>6</sup>Georgia Tech &nbsp;
     <sup>7</sup>Johns Hopkins University &nbsp;
     <sup>8</sup>UIUC &nbsp;
-    <sup>9</sup>UNC Chapel Hill<br>
+    <sup>9</sup>UNC Chapel Hill &nbsp;
+    <sup>10</sup>Stanford University<br>
     <span class="contrib-key">*Project Leader &nbsp; &dagger;Major Contributor &nbsp; &Dagger;Corresponding Author</span>
   </div>
 
@@ -110,8 +111,8 @@
     </p>
 
     <p>
-      This survey reviews the field as a single coherent control plane.
-      Drawing on <strong>200+ papers published between 2020 and 2026</strong>,
+      This work reviews the field as a single coherent control plane.
+      Drawing on <strong>230+ papers published between 2020 and 2026</strong>,
       we organize seven categories of inference-time methods into three
       tiers&mdash;<strong>External Controls</strong> (Context Engineering,
       Guardrails, Decoding Strategies), <strong>Internal Manipulations</strong>
@@ -144,7 +145,7 @@
       with arXiv links and code references where available. The remainder
       of this page summarizes each tier with the corresponding figures from
       the paper, the meta-axis evaluation framework we adopt, a comparison
-      with prior surveys, and the open challenges we identify.
+      with related work, and the open challenges we identify.
     </p>
   </section>
 
@@ -356,23 +357,23 @@
        COMPARISON TABLE
        ============================================================ -->
   <section id="related">
-    <h2>Comparison with Existing Surveys <a class="anchor-link" href="#related" aria-hidden="true">#</a></h2>
+    <h2>Related Work <a class="anchor-link" href="#related" aria-hidden="true">#</a></h2>
     <hr class="rule">
 
     <p>
-      Prior surveys either organize the trustworthy-LLM literature by harm
+      Prior work either organizes the trustworthy-LLM literature by harm
       type, by a single solution family, or by efficiency considerations.
-      To our knowledge none unifies inference-time methods as a control
-      plane across all four dimensions and all seven categories considered
-      here. The matrix below mirrors Table&nbsp;1 of the paper. Survey
-      names are anonymized while under review.
+      To our knowledge no prior work unifies inference-time methods as a
+      control plane across all four dimensions and all seven categories
+      considered here. The matrix below mirrors Table&nbsp;1 of the paper.
+      Names are anonymized while under review.
     </p>
 
     <div class="table-wrap">
       <table class="comparison">
         <thead>
           <tr>
-            <th rowspan="2">Survey</th>
+            <th rowspan="2">Work</th>
             <th colspan="4" class="group">Trustworthiness Dimensions</th>
             <th colspan="7" class="group">Method Categories</th>
           </tr>
@@ -384,7 +385,7 @@
         </thead>
         <tbody>
           <tr class="ours">
-            <td class="row-name">Ours (this survey)</td>
+            <td class="row-name">Ours (this work)</td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
@@ -412,14 +413,14 @@
             <td><span class="yes">&#10003;</span></td>
           </tr>
           <tr>
-            <td class="row-name">Holistic Trustworthy LLM Survey #1</td>
+            <td class="row-name">Trustworthy LLM Survey #1</td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
             <td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td><td><span class="yes">&#10003;</span></td>
             <td><span class="no">&#10005;</span></td>
           </tr>
           <tr>
-            <td class="row-name">Holistic Trustworthy LLM Survey #2</td>
+            <td class="row-name">Trustworthy LLM Survey #2</td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td>
             <td><span class="yes">&#10003;</span></td><td><span class="yes">&#10003;</span></td><td><span class="no">&#10005;</span></td>
@@ -468,8 +469,9 @@
 
     <p>
       Inference-time methods make trustworthiness modular and updatable,
-      but each tier still leaves open problems. The paper synthesizes these
-      into a research agenda; we group them into four cross-cutting themes.
+      but each tier still leaves open problems. The paper discusses these
+      and outlines directions for future work; we group them into four
+      cross-cutting themes.
     </p>
 
     <blockquote class="pullquote">
@@ -519,22 +521,9 @@
     <h2>&#128276; News <a class="anchor-link" href="#news" aria-hidden="true">#</a></h2>
     <hr class="rule">
     <ul class="news-list">
-      <!-- Replace each TBD with the actual YYYY-MM date when the milestone happens. -->
       <li>
-        <span class="date upcoming">TBD</span>
-        <span>[Placeholder for first news item]</span>
-      </li>
-      <li>
-        <span class="date upcoming">TBD</span>
-        <span>[Placeholder for second news item]</span>
-      </li>
-      <li>
-        <span class="date upcoming">TBD</span>
-        <span>[Placeholder for third news item]</span>
-      </li>
-      <li>
-        <span class="date upcoming">TBD</span>
-        <span>[Placeholder for fourth news item]</span>
+        <span class="date upcoming">Coming Soon</span>
+        <span>arXiv preprint release for <em>Inference-Time Control for Trustworthy LLMs</em>.</span>
       </li>
     </ul>
   </section>
@@ -557,9 +546,9 @@
         <i class="fas fa-copy"></i>
         <span>Copy</span>
       </button>
-      <pre class="bibtex" id="bibtex-block">@article{anonymous2026inference,
-  title   = {Inference-Time Control for Trustworthy Large Language Models: A Survey},
-  author  = {Anonymous Authors},
+      <pre class="bibtex" id="bibtex-block">@article{bai2026inferencetime,
+  title   = {Inference-Time Control for Trustworthy Large Language Models},
+  author  = {Bai, Yuyang and Liu, Zheyuan and Yan, Han and Xu, Zhangchen and Wan, Yixin and Chen, Canyu and Wang, Zehong and Yuan, Xiangchi and Huang, Yue and Dou, Guangyao and Zhang, Yuji and Zhu, Hangxiao and Li, Zhuofeng and Li, Manling and Zhang, Xiangliang and Bansal, Mohit and Koyejo, Sanmi and Chang, Kai-Wei and Zhang, Yu and Jiang, Meng},
   journal = {arXiv preprint arXiv:YOUR_ARXIV_ID},
   year    = {2026}
 }</pre>
@@ -598,7 +587,7 @@
     <li><a href="#tier2">Tier 2: Internal Manipulations</a></li>
     <li><a href="#tier3">Tier 3: System-Level Orchestration</a></li>
     <li><a href="#evaluation">Evaluation</a></li>
-    <li><a href="#related">Related Surveys</a></li>
+    <li><a href="#related">Related Work</a></li>
     <li><a href="#challenges">Open Challenges</a></li>
     <li><a href="#news">News</a></li>
     <li><a href="#cite">Cite</a></li>

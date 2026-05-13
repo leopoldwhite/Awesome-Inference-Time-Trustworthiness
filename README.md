@@ -1,6 +1,6 @@
 <div align="center">
 
-# Inference-Time Control for Trustworthy Large Language Models: A Survey
+# Inference-Time Control for Trustworthy Large Language Models
 
 [![Awesome](https://img.shields.io/badge/Awesome-0066CC?style=for-the-badge&logo=awesome-lists&logoColor=white)](https://github.com/sindresorhus/awesome)
 [![Survey](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/YOUR_ARXIV_ID)
@@ -12,16 +12,16 @@
 
 ## 🎉 News
 
-- **[2026-04]** 🔥 We release our survey on Inference-Time Control for Trustworthy LLMs!
+- **[Coming Soon]** 🔥 arXiv preprint release for *Inference-Time Control for Trustworthy LLMs*.
 
 ## 🎈 Citation
 
-If you find this survey helpful, please cite our work:
+If you find this work helpful, please cite us:
 
 ```bibtex
-@article{anonymous2026inference,
-  title   = {Inference-Time Control for Trustworthy Large Language Models: A Survey},
-  author  = {Anonymous Authors},
+@article{bai2026inferencetime,
+  title   = {Inference-Time Control for Trustworthy Large Language Models},
+  author  = {Bai, Yuyang and Liu, Zheyuan and Yan, Han and Xu, Zhangchen and Wan, Yixin and Chen, Canyu and Wang, Zehong and Yuan, Xiangchi and Huang, Yue and Dou, Guangyao and Zhang, Yuji and Zhu, Hangxiao and Li, Zhuofeng and Li, Manling and Zhang, Xiangliang and Bansal, Mohit and Koyejo, Sanmi and Chang, Kai-Wei and Zhang, Yu and Jiang, Meng},
   journal = {arXiv preprint arXiv:YOUR_ARXIV_ID},
   year    = {2026}
 }
@@ -29,7 +29,7 @@ If you find this survey helpful, please cite our work:
 
 ## 📖 Contents
 
-- [Inference-Time Control for Trustworthy Large Language Models: A Survey](#inference-time-control-for-trustworthy-large-language-models-a-survey)
+- [Inference-Time Control for Trustworthy Large Language Models](#inference-time-control-for-trustworthy-large-language-models)
   - [🎉 News](#-news)
   - [🎈 Citation](#-citation)
   - [📖 Contents](#-contents)
@@ -49,7 +49,7 @@ If you find this survey helpful, please cite our work:
 
 ## 🗺️ Overview
 
-Our survey provides a comprehensive examination of **Inference-Time Control** methods for building trustworthy LLMs, organized into three tiers:
+This work covers **Inference-Time Control** methods for building trustworthy LLMs, organized into three tiers:
 
 1. **Tier 1 — External Controls**: Treat the model as a black box. Shape behavior by modifying inputs, decoding process, or outputs, without changing internal weights or activations.
    - *Context Engineering*: Strategic prompt design through rules, instructions, or few-shot exemplars.
@@ -361,9 +361,9 @@ Our survey provides a comprehensive examination of **Inference-Time Control** me
 | 2024.10 | Mitigating Gender Bias in Code Large Language Models via Model Editing | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2410.07820) | - |
 | 2025.06 | Saffron-1: Towards an Inference Scaling Paradigm for LLM Safety Assurance | [![Paper](https://img.shields.io/badge/paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/2506.06444) | [![GitHub Stars](https://img.shields.io/github/stars/q-rz/saffron?style=for-the-badge&logo=github&label=GitHub&color=black)](https://github.com/q-rz/saffron) |
 
-## 🌟 Acknowledgment
+## 🌟 Acknowledgments
 
-We thank all the researchers who contributed to this field. This survey is maintained by the authors. If you find any missing papers or errors, please open an issue.
+We thank all the researchers who contributed to this field. This list is maintained by the authors. If you find any missing papers or errors, please open an issue.
 
 ## ✨ Star History
 
