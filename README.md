@@ -3,7 +3,7 @@
 # Inference-Time Control for Trustworthy Large Language Models
 
 [![Awesome](https://img.shields.io/badge/Awesome-0066CC?style=for-the-badge&logo=awesome-lists&logoColor=white)](https://github.com/sindresorhus/awesome)
-[![Paper](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logo=arxiv&logoColor=white)](https://arxiv.org/abs/YOUR_ARXIV_ID)
+[![Paper](https://img.shields.io/badge/Paper-A42C25?style=for-the-badge&logoColor=white)](https://www.preprints.org/manuscript/202605.1041)
 [![Webpage](https://img.shields.io/badge/Webpage-1859c2?style=for-the-badge&logo=githubpages&logoColor=white)](https://leopoldwhite.github.io/Awesome-Inference-Time-Trustworthiness/)
 
 </div>
@@ -12,7 +12,7 @@
 
 ## 🎉 News
 
-- **[Coming Soon]** 🔥 arXiv preprint release for *Inference-Time Control for Trustworthy LLMs*.
+- **[2026-05]** 🔥 Paper available on preprints.org: [https://www.preprints.org/manuscript/202605.1041](https://www.preprints.org/manuscript/202605.1041)
 
 ## 🎈 Citation
 
@@ -20,10 +20,14 @@ If you find this work helpful, please cite us:
 
 ```bibtex
 @article{bai2026inferencetime,
-  title   = {Inference-Time Control for Trustworthy Large Language Models},
-  author  = {Bai, Yuyang and Liu, Zheyuan and Yan, Han and Xu, Zhangchen and Wan, Yixin and Chen, Canyu and Wang, Zehong and Yuan, Xiangchi and Huang, Yue and Dou, Guangyao and Zhang, Yuji and Zhu, Hangxiao and Li, Zhuofeng and Li, Manling and Zhang, Xiangliang and Bansal, Mohit and Koyejo, Sanmi and Chang, Kai-Wei and Zhang, Yu and Jiang, Meng},
-  journal = {arXiv preprint arXiv:YOUR_ARXIV_ID},
-  year    = {2026}
+  title     = {Inference-Time Control for Trustworthy Large Language Models},
+  author    = {Bai, Yuyang and Liu, Zheyuan and Yan, Han and Xu, Zhangchen and Wan, Yixin and Chen, Canyu and Wang, Zehong and Yuan, Xiangchi and Huang, Yue and Dou, Guangyao and Zhang, Yuji and Zhu, Hangxiao and Li, Zhuofeng and Li, Manling and Zhang, Xiangliang and Bansal, Mohit and Koyejo, Sanmi and Chang, Kai-Wei and Zhang, Yu and Jiang, Meng},
+  journal   = {Preprints},
+  year      = {2026},
+  month     = {May},
+  publisher = {Preprints},
+  doi       = {10.20944/preprints202605.1041.v1},
+  url       = {https://doi.org/10.20944/preprints202605.1041.v1}
 }
 ```
 
